@@ -1,12 +1,13 @@
 import express, { json } from 'express';
 import cors from 'cors';
 import indexRoute from './routes/index.routes.js';
-import { connectToDB } from './db/server.js';
+import { connectToDB } from './db/mongoose.js';
 import AppError from './utils/appError.js';
 
 export const app = express(); // Create our Express Application Object
 
 const PORT = process.env.PORT || 3000; // Set the Port
+console.log(process.env);
 const BASE_URL = '/api/v1';
 app.use(cors()); // Allow Cross Origin Requests
 app.use(json()); // Parse JSON Data
