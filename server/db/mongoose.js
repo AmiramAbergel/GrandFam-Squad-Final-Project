@@ -1,10 +1,11 @@
 import dotenv from 'dotenv';
 dotenv.config(); // Load ENV Variables
-console.log(dotenv.config());
+
 import mongoose from 'mongoose';
 mongoose.set('strictQuery', true);
 const DB = process.env.MONGO_URL;
 const config = {
+    dbName: 'GrandFamSquad',
     useNewUrlParser: true,
     useUnifiedTopology: true,
 };

@@ -7,7 +7,7 @@ import AppError from './utils/appError.js';
 export const app = express(); // Create our Express Application Object
 
 const PORT = process.env.PORT || 3000; // Set the Port
-console.log(process.env);
+
 const BASE_URL = '/api/v1';
 app.use(cors()); // Allow Cross Origin Requests
 app.use(json()); // Parse JSON Data
@@ -18,4 +18,28 @@ app.all('*', (req, res, next) => {
 //run the function so we are connected to the database
 connectToDB(); // Connect to MongoDB
 // Server Listener
-app.listen(PORT, () => console.log(`Now Listening on port ${PORT}`));
+const server = app.listen(PORT, () =>
+    console.log(`Now Listening on port ${PORT}`)
+);
+
+process.on('unhandledRejection', (err) => {
+    // Handle unhandled promise rejections (e.g. database connection error)
+    console.log(err.name, err.message);
+    server.close(() => {
+        console.log('Closing server due to unhandled rejection');
+        process.exit(1);
+    });
+});
+
+process.on(
+    'SIGTERM',
+    () => {
+        // Handle SIGTERM (e.g. aws ec2 instance termination)
+        console.log('Received SIGTERM, shutting down gracefully');
+        server.close(() => {
+            console.log('Closed out remaining connections');
+            process.exit(0);
+        });
+    },
+    3000
+);
