@@ -9,6 +9,6 @@ export const signup = async (req, res, next) => {
             passwordConfirm: req.body.passwordConfirm,
         });
     } catch (err) {
-        console.log(err);
+        next(err, req, res);
     }
 };

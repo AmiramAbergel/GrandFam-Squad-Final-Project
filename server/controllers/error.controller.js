@@ -6,7 +6,7 @@ const handleCastErrorDB = (err) => {
 };
 
 const handleDuplicateFieldsDB = (err) => {
-    const value = err.errmsg.match(/(["'])(\\?.)*?\1/)[0];
+    const value = err.message.match(/(["'])(\\?.)*?\1/)[0];
     const message = `Duplicate field value: ${value}. Please use another value!`;
     return AppError(message, 400);
 };
@@ -20,16 +20,18 @@ const handleValidationErrorDB = (err) => {
 const sendError = (err, req, res) => {
     if (err.isOperational) {
         // Operational, send message to client
-        return res.status(err.statusCode).render('error', {
+        return res.status(err.statusCode).json({
             title: 'Something went wrong!',
             msg: err.message,
             status: err.status,
+            error: err,
+            stack: err.stack,
         });
     }
     // Log error
     console.error('ERROR 💥', err);
     //  Send generic message
-    return res.status(err.statusCode).render('error', {
+    return res.status(err.statusCode).json({
         title: 'Something went wrong!',
         status: 'error',
         msg: 'Please try again later.',
@@ -47,6 +49,7 @@ export default (err, req, res, next) => {
         error = handleCastErrorDB(error);
     }
     if (error.code === 11000) {
+        console.log('Hey!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
         // If the error is a duplicate field error (e.g. duplicate email)
         error = handleDuplicateFieldsDB(error);
     }
