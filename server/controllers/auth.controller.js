@@ -34,6 +34,8 @@ export const signup = async (req, res, next) => {
             password: req.body.password,
             passwordConfirm: req.body.passwordConfirm,
         });
+
+        await Object.create(Email(newUser)).sendWelcome();
         createSendToken(newUser, 201, req, res);
     } catch (err) {
         next(err, req, res);

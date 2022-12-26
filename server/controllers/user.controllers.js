@@ -13,11 +13,6 @@ const filterObj = (obj, ...allowedFields) => {
     return newObj;
 };
 
-export const getMe = (req, res, next) => {
-    req.params.id = req.user._id;
-    next();
-};
-
 export const updateMe = async (req, res, next) => {
     // This function is used to update the currently logged in user
     try {
@@ -54,6 +49,11 @@ export const updateMe = async (req, res, next) => {
     } catch (err) {
         next(err, req, res);
     }
+};
+
+export const getMe = (req, res, next) => {
+    req.params.id = req.user._id;
+    next();
 };
 
 // This function is used to delete the currently logged in user

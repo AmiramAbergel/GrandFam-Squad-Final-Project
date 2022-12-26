@@ -1,15 +1,12 @@
 import nodemailer from 'nodemailer';
-export default class Email {
-    constructor(user, url) {
-        this.to = user.email;
-        this.firstName = user.name.split(' ')[0];
-        this.url = url;
-        this.from = `GrandFam-Squad App! <${process.env.EMAIL_FROM}>`;
-    }
 
-    newTransport() {
-        if (process.env.NODE_ENV === 'production') {
-            // Sendgrid
+const Email = (user) => {
+    return {
+        to: user.email,
+        firstName: user.name.split(' ')[0],
+        from: `GrandFam-Squad <${process.env.EMAIL_FROM}>`,
+
+        newTransport() {
             return nodemailer.createTransport({
                 service: 'SendGrid',
                 auth: {
@@ -17,51 +14,33 @@ export default class Email {
                     pass: process.env.SENDGRID_PASSWORD,
                 },
             });
-        }
+        },
 
-        return nodemailer.createTransport({
-            host: process.env.EMAIL_HOST,
-            port: process.env.EMAIL_PORT,
-            auth: {
-                user: process.env.EMAIL_USERNAME,
-                pass: process.env.EMAIL_PASSWORD,
-            },
-        });
-    }
-
-    // Send the actual email
-    async send(template, subject) {
-        // 1) Render HTML based on a pug template
-        const html = pug.renderFile(
-            `${__dirname}/../views/email/${template}.pug`,
-            {
-                firstName: this.firstName,
-                url: this.url,
+        async send(subject, text) {
+            const mailOptions = {
+                from: this.from,
+                to: this.to,
                 subject,
-            }
-        );
+                text,
+            };
 
-        // 2) Define email options
-        const mailOptions = {
-            from: this.from,
-            to: this.to,
-            subject,
-            html,
-            text: htmlToText.fromString(html),
-        };
+            await this.newTransport().sendMail(mailOptions);
+        },
 
-        // 3) Create a transport and send email
-        await this.newTransport().sendMail(mailOptions);
-    }
+        async sendWelcome() {
+            const subject = 'Thanks for joining in! 😊';
+            const text = `Hi ${this.firstName},Welcome to the GrandFam-Squad Family! 😊 We hope you enjoy your stay. If you have any questions, please feel free to contact us at ${process.env.EMAIL_FROM}.`;
+            await this.send(subject, text);
+        },
 
-    async sendWelcome() {
-        await this.send('welcome', 'Welcome to the Natours Family!');
-    }
+        async sendPasswordReset(url) {
+            const subject =
+                'Your password reset token (valid for only 10 minutes)';
+            const text = `Hi ${this.firstName},Here is your password reset link:${url} This link is only valid for 10 minutes.`;
 
-    async sendPasswordReset() {
-        await this.send(
-            'passwordReset',
-            'Your password reset token (valid for only 10 minutes)'
-        );
-    }
-}
+            await this.send(subject, text);
+        },
+    };
+};
+
+export default Email;
