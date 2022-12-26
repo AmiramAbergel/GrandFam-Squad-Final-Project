@@ -14,15 +14,6 @@ const signToken = (id) => {
 
 const createSendToken = (user, statusCode, req, res) => {
     const token = signToken(user._id);
-    // This is used to set the cookie in the browser so that the user can be logged in automatically
-    res.cookie('jwt', token, {
-        expires: new Date(
-            Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
-        ),
-        httpOnly: true,
-        // secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
-    });
-
     // Remove password from output
     user.password = undefined;
 
@@ -72,12 +63,16 @@ export const login = async (req, res, next) => {
     }
 };
 
-export const logout = (req, res) => {
-    res.cookie('jwt', 'loggedout', {
-        expires: new Date(Date.now() + 10 * 1000),
-        httpOnly: true,
-    });
-    res.status(200).json({ status: 'success' });
+export const logout = async (req, res) => {
+    try {
+        req.user.tokens = req.user.tokens.filter(
+            ({ token }) => token !== req.token
+        );
+        await req.user.save();
+        res.status(200).json({ status: 'success' });
+    } catch (err) {
+        next(err, req, res);
+    }
 };
 // This function is used to protect the routes that require authentication (i.e. the user must be logged in to access them)
 export const restrictTo = (...roles) => {
