@@ -28,6 +28,7 @@ export const authProtect = async (req, res, next) => {
         // 2) Verification token
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         // 3) Check if user still exists
+
         const currentUser = await User.findById(decoded.id);
         if (!currentUser) {
             // If the user is deleted after the token is issued, the user will not be found in the database
@@ -50,6 +51,7 @@ export const authProtect = async (req, res, next) => {
         }
         // GRANT ACCESS TO PROTECTED ROUTE
         req.user = currentUser; // store the user in the request object so that it can be accessed in the controller function
+
         next(); // This is the next middleware function in the route handler (in this case, the controller function)
     } catch (err) {
         next(err, req, res);

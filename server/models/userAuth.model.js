@@ -64,6 +64,24 @@ userSchema.pre('save', async function (next) {
     next();
 });
 
+userSchema.pre('save', function (next) {
+    const user = this; // this refers to the current document being processed
+    if (!user.isModified('password') || user.isNew) {
+        // if the password was not modified or the user is new (not in the database yet)
+        return next();
+    }
+
+    user.passwordChangedAt = Date.now() - 1000; // subtract 1 second from the current time to make sure the token is issued before the password was changed
+    next();
+});
+
+// This middleware will be used to hide inactive users from the database, marking them as inactive will not delete them from the database but will hide them to the user
+userSchema.pre(/^find/, function (next) {
+    // this points to the current query
+    this.find({ active: { $ne: false } }); // $ne means not equal to false (i.e. active) and will be used to hide inactive users
+    next();
+});
+
 userSchema.methods.correctPassword = async function (
     // This is an instance method, which means it is available on all documents of a certain collection
     candidatePassword,
@@ -88,24 +106,6 @@ userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
     // False means NOT changed
     return false;
 };
-
-userSchema.pre('save', function (next) {
-    const user = this; // this refers to the current document being processed
-    if (!user.isModified('password') || user.isNew) {
-        // if the password was not modified or the user is new (not in the database yet)
-        return next();
-    }
-
-    user.passwordChangedAt = Date.now() - 1000; // subtract 1 second from the current time to make sure the token is issued before the password was changed
-    next();
-});
-
-// This middleware will be used to hide inactive users from the database, marking them as inactive will not delete them from the database but will hide them to the user
-userSchema.pre(/^find/, function (next) {
-    // this points to the current query
-    this.find({ active: { $ne: false } }); // $ne means not equal to false (i.e. active) and will be used to hide inactive users
-    next();
-});
 
 // this method provides a password reset token in case the user forgets their password
 userSchema.methods.createPasswordResetToken = function () {
