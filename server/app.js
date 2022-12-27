@@ -10,6 +10,7 @@ const PORT = process.env.PORT || 3000; // Set the Port
 
 const BASE_URL = '/api/v1';
 app.use(cors()); // Allow Cross Origin Requests
+app.options('*', cors());
 app.use(json()); // Parse JSON Data
 app.use(BASE_URL, indexRoute); // '/api/v1' is the base url for all routes
 app.all('*', (req, res, next) => {

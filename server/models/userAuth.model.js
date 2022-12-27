@@ -29,7 +29,10 @@ const userSchema = new Schema({
             message: 'Passwords are not the same!',
         },
     },
-    photo: { type: String, default: 'default.jpg' },
+    photo: {
+        type: String,
+        default: 'https://picsum.photos/200', // generates a random image from the Picsum API
+    },
     role: {
         // this field will be used to check if the user is an admin or a regular user
         type: String,
