@@ -3,12 +3,13 @@ import validator from 'validator';
 const { Schema } = mongoose;
 
 const grandParentsTasksSchema = new Schema({
-    task: { type: String, required: true },
+    taskType: { type: String, required: true }, // appointment, event, task,
+    taskName: { type: String, required: true },
+    taskTime: { type: Date, required: true }, // date and time
+    taskLocation: { type: String, required: true },
     description: { type: String, required: true },
-    status: { type: Boolean, required: true },
-
-    status: { type: Boolean, required: true },
-    familyMember: {
+    status: { type: Boolean, required: true }, // completed, not completed
+    familyMemberAssigned: {
         type: Schema.Types.ObjectId,
         ref: 'FamilyMember',
         required: true,
