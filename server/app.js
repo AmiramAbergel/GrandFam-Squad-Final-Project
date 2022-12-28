@@ -1,17 +1,28 @@
 import express, { json } from 'express';
 import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import indexRoute from './routes/index.routes.js';
 import { connectToDB } from './db/mongoose.js';
 import AppError from './utils/appError.js';
 import globalErrorHandler from './controllers/error.controller.js';
+
 export const app = express(); // Create our Express Application Object
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const publicPath = path.join(__dirname, '../client/build');
+app.enable('trust proxy'); // Trust the proxy for secure headers (https)
 
 const PORT = process.env.PORT || 3000; // Set the Port
 
 const BASE_URL = '/api/v1';
 app.use(cors()); // Allow Cross Origin Requests
-app.options('*', cors());
-app.use(json()); // Parse JSON Data
+app.options('*', cors()); // Allow Cross Origin Requests
+app.get('*', (req, res) => {
+    // Serve the React App from the build folder in production
+    res.sendFile(path.join(publicPath, 'index.html'));
+});
+app.use(json({ limit: '10kb' })); // Parse JSON Data
+app.use(express.urlencoded({ extended: true, limit: '10kb' })); // Parse URL Encoded Data
 app.use(BASE_URL, indexRoute); // '/api/v1' is the base url for all routes
 app.all('*', (req, res, next) => {
     next(AppError(`Can't find ${req.originalUrl} on this server!`, 404));
