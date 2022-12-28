@@ -22,7 +22,6 @@ userRoute.patch('/updateMyPassword', updatePassword); // This route is used to u
 userRoute.get('/me', getMe, getUser); // This route is used to update the user's password
 userRoute.patch('/updateMe', updateMe); // This route is used to update the user's name and email
 userRoute.delete('/deleteMe', deleteMe); // This route is used to delete the user
-userRoute.post('/subscribe', subscribe); // This route is used to subscribe the user to push notification.
 
 userRoute.use(restrictTo('admin')); // Restrict all routes after this middleware to only admin users
 

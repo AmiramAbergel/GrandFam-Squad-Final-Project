@@ -6,10 +6,12 @@ import indexRoute from './routes/index.routes.js';
 import { connectToDB } from './db/mongoose.js';
 import AppError from './utils/appError.js';
 import globalErrorHandler from './controllers/error.controller.js';
+import { subscribe } from './controllers/user.controllers.js';
 
 export const app = express(); // Create our Express Application Object
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const publicPath = path.join(__dirname, '../client/build');
+//const publicPath = path.join(__dirname, '../client/build');
+const publicPath = path.join(__dirname, '../client/public');
 app.enable('trust proxy'); // Trust the proxy for secure headers (https)
 
 const PORT = process.env.PORT || 3000; // Set the Port
@@ -17,10 +19,14 @@ const PORT = process.env.PORT || 3000; // Set the Port
 const BASE_URL = '/api/v1';
 app.use(cors()); // Allow Cross Origin Requests
 app.options('*', cors()); // Allow Cross Origin Requests
-app.get('*', (req, res) => {
-    // Serve the React App from the build folder in production
-    res.sendFile(path.join(publicPath, 'index.html'));
-});
+// app.get('/service-worker.js', (req, res) => {
+//     res.sendFile(path.resolve(__dirname, 'public', 'service-worker.js'));
+// });
+// app.get('*', (req, res) => {
+//     // Serve the React App from the build folder in production
+//     res.sendFile(path.join(publicPath, 'index.html'));
+// });
+app.post('/subscribe', subscribe);
 app.use(json({ limit: '10kb' })); // Parse JSON Data
 app.use(express.urlencoded({ extended: true, limit: '10kb' })); // Parse URL Encoded Data
 app.use(BASE_URL, indexRoute); // '/api/v1' is the base url for all routes
