@@ -1,24 +1,21 @@
 import mongoose from 'mongoose';
 import validator from 'validator';
+import { grandParentsSchema } from './grandParents.model.js';
 const { Schema } = mongoose;
 
-const familyMemberSchema = new Schema({
-    firstName: { type: String, required: true },
-    lastName: { type: String, required: true },
+export const familyMemberSchema = new Schema({
     age: { type: Number, required: true },
     address: { type: String, required: true },
     phone: { type: String, required: true },
-    img: { type: String, required: true },
-    mail: { type: String, required: true },
     maternalRank: {
-        visit: { type: Number, required: true },
-        call: { type: Number, required: true },
-        total: { type: Number, required: true },
+        visit: { type: Number, default: 0 },
+        call: { type: Number, default: 0 },
+        total: { type: Number, default: 0 },
     },
     paternalRank: {
-        visit: { type: Number, required: true },
-        call: { type: Number, required: true },
-        total: { type: Number, required: true },
+        visit: { type: Number, default: 0 },
+        call: { type: Number, default: 0 },
+        total: { type: Number, default: 0 },
     },
     maternalGrandparents: {
         type: Schema.Types.ObjectId,

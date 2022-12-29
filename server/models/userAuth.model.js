@@ -3,8 +3,15 @@ import validator from 'validator';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto'; // this is a built-in node module that comes with node.js and is used to generate random strings
 const { Schema } = mongoose;
+import { familyMemberSchema } from './familyMember.model.js';
+
 const userSchema = new Schema({
     name: { type: String, required: true },
+    lastName: { type: String },
+    familyMember: {
+        type: familyMemberSchema,
+        ref: 'FamilyMember',
+    },
     email: {
         type: String,
         required: [true, 'Please provide your email'],

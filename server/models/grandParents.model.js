@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 import validator from 'validator';
 const { Schema } = mongoose;
-
-const grandParentsSchema = new Schema({
+import { v4 as uuidv4 } from 'uuid';
+export const grandParentsSchema = new Schema({
     side: { type: String, required: true },
     grandma: {
         name: { type: String, required: true },
@@ -14,7 +14,13 @@ const grandParentsSchema = new Schema({
         relationship: { type: String, required: true },
     },
     familyName: { type: String, required: true },
-    sharedWith: [{ type: String, required: true }],
+    familyID: { type: String, default: uuidv4() },
+    sharedWith: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'User',
+        },
+    ],
     address: { type: String, required: true },
     phone: { type: String, required: true },
     img: {

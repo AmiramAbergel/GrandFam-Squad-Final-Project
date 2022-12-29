@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 import AppError from '../utils/appError.js';
 import url from 'url'; // This is used to parse the url in the forgotPassword function
 import Email from '../utils/emailHandler.js';
+import { FamilyMember } from '../models/familyMember.model.js';
 
 const signToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -28,8 +29,18 @@ const createSendToken = (user, statusCode, req, res) => {
 
 export const signup = async (req, res, next) => {
     try {
+        const familyMemberInfo = await FamilyMember.create({
+            age: req.body.familyMember.age,
+            address: req.body.familyMember.address,
+            phone: req.body.familyMember.phone,
+            maternalGrandparents: req.body.familyMember.maternalGrandparents,
+            paternalGrandparents: req.body.familyMember.paternalGrandparents,
+        });
+
         const newUser = await User.create({
             name: req.body.name,
+            lastName: req.body.lastName,
+            familyMember: familyMemberInfo,
             email: req.body.email,
             password: req.body.password,
             passwordConfirm: req.body.passwordConfirm,

@@ -1,8 +1,16 @@
 import webpush from 'web-push';
+import { GrandParents } from '../models/grandParents.model.js';
 import { Subscription } from '../models/notificationSubscription.model.js';
+
 import { User } from '../models/userAuth.model.js';
 import AppError from '../utils/appError.js';
-import { deleteOne, getAll, getOne, updateOne } from './factoryHandler.js';
+import {
+    createOne,
+    deleteOne,
+    getAll,
+    getOne,
+    updateOne,
+} from './factoryHandler.js';
 
 // filterObj is used to filter out unwanted fields names that are not allowed to be updated
 const filterObj = (obj, ...allowedFields) => {
@@ -78,6 +86,9 @@ export const createUser = (req, res) => {
         message: 'This route is not defined! Please use /signup instead',
     });
 };
+
+// admin only
+export const createGrandparents = createOne(GrandParents);
 
 export const subscribe = async (req, res, next) => {
     //web push keys for notifications (vapid keys)

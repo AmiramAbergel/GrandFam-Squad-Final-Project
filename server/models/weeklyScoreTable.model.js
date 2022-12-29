@@ -3,15 +3,27 @@ import validator from 'validator';
 const { Schema } = mongoose;
 
 const weeklyScoreTableSchema = new Schema({
+    familyID: { type: String, required: true },
+    familyName: { type: String, required: true },
     week: { type: String, required: true },
-    familyMember: {
-        type: Schema.Types.ObjectId,
-        ref: 'FamilyMember',
-        required: true,
-    },
-    totalVisits: { type: Number, required: true },
-    totalCalls: { type: Number, required: true },
-    totalScore: { type: Number, required: true },
+    rank: [
+        {
+            familyMember: {
+                type: Schema.Types.ObjectId,
+                ref: 'User',
+                required: true,
+            },
+            totalScore: { type: Number },
+        },
+    ],
+});
+// Populate the familyMember field in the rank array with the name of the family member from the familyMember collection
+weeklyScoreTableSchema.pre(/^find/, function (next) {
+    this.populate({
+        path: 'rank.familyMember',
+        select: 'name',
+    });
+    next();
 });
 
 export const WeeklyScoreTable = mongoose.model(
