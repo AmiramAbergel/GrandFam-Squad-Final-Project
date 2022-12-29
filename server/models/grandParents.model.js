@@ -17,8 +17,17 @@ const grandParentsSchema = new Schema({
     sharedWith: [{ type: String, required: true }],
     address: { type: String, required: true },
     phone: { type: String, required: true },
-    img: { type: String, required: true, default: '' },
-    location: { type: { type: String }, coordinates: [Number] },
+    img: {
+        type: String,
+        required: true,
+        default: 'https://xsgames.co/randomusers/avatar.php?g=pixel',
+    },
+    location: {
+        type: { type: String, default: 'Point', enum: ['Point'] },
+        coordinates: [Number], // [latitude,longitude]
+        address: String,
+        description: String,
+    },
 });
 
 export const GrandParents = mongoose.model('GrandParents', grandParentsSchema);

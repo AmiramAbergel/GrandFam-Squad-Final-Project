@@ -20,12 +20,12 @@ const familyMemberSchema = new Schema({
         call: { type: Number, required: true },
         total: { type: Number, required: true },
     },
-    maternalGrandparent: {
+    maternalGrandparents: {
         type: Schema.Types.ObjectId,
         ref: 'Grandparent',
         required: true,
     },
-    paternalGrandparent: {
+    paternalGrandparents: {
         type: Schema.Types.ObjectId,
         ref: 'Grandparent',
         required: true,
