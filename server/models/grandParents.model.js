@@ -3,7 +3,6 @@ import validator from 'validator';
 const { Schema } = mongoose;
 import { v4 as uuidv4 } from 'uuid';
 export const grandParentsSchema = new Schema({
-    side: { type: String, required: true },
     grandma: {
         name: { type: String, required: true },
         age: { type: Number, required: true },

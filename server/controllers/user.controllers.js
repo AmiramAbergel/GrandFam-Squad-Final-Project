@@ -87,9 +87,6 @@ export const createUser = (req, res) => {
     });
 };
 
-// admin only
-export const createGrandparents = createOne(GrandParents);
-
 export const subscribe = async (req, res, next) => {
     //web push keys for notifications (vapid keys)
     const publicVapidKey = process.env.WEB_PUSH_PUBLIC; // Get the Public Key from the .env file
@@ -131,3 +128,9 @@ export const getAllUsers = getAll(User);
 // do not update passwords with this!
 export const updateUser = updateOne(User);
 export const deleteUser = deleteOne(User);
+
+// admin only
+export const createGrandparents = createOne(GrandParents);
+export const getAllGrandparents = getAll(GrandParents);
+export const getGrandparents = getOne(GrandParents);
+export const deleteGrandparents = deleteOne(GrandParents);

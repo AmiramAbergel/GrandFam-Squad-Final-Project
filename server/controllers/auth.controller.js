@@ -33,8 +33,8 @@ export const signup = async (req, res, next) => {
             age: req.body.familyMember.age,
             address: req.body.familyMember.address,
             phone: req.body.familyMember.phone,
-            maternalGrandparents: req.body.familyMember.maternalGrandparents,
-            paternalGrandparents: req.body.familyMember.paternalGrandparents,
+            // maternalGrandparents: req.body.familyMember.maternalGrandparents,
+            // paternalGrandparents: req.body.familyMember.paternalGrandparents,
         });
 
         const newUser = await User.create({

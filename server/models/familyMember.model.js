@@ -20,12 +20,12 @@ export const familyMemberSchema = new Schema({
     maternalGrandparents: {
         type: Schema.Types.ObjectId,
         ref: 'Grandparent',
-        required: true,
+        //required: true,
     },
     paternalGrandparents: {
         type: Schema.Types.ObjectId,
         ref: 'Grandparent',
-        required: true,
+        //  required: true,
     },
 });
 

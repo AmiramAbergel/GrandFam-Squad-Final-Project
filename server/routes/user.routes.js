@@ -1,10 +1,14 @@
 import { Router } from 'express';
 import { restrictTo, updatePassword } from '../controllers/auth.controller.js';
 import {
+    createGrandparents,
     createUser,
+    deleteGrandparents,
     deleteMe,
     deleteUser,
+    getAllGrandparents,
     getAllUsers,
+    getGrandparents,
     getMe,
     getUser,
     subscribe,
@@ -26,5 +30,13 @@ userRoute.delete('/deleteMe', deleteMe); // This route is used to delete the use
 userRoute.use(restrictTo('admin')); // Restrict all routes after this middleware to only admin users
 
 userRoute.route('/').get(getAllUsers).post(createUser); // '/api/v1/users' is the base url for all user routes
+userRoute
+    .route('/grandparents')
+    .get(getAllGrandparents)
+    .post(createGrandparents); // '/api/v1/users' is the base url for all user routes
+userRoute
+    .route('/grandparents/:id')
+    .get(getGrandparents)
+    .delete(deleteGrandparents);
 
 userRoute.route('/:id').get(getUser).patch(updateUser).delete(deleteUser);

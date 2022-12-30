@@ -44,7 +44,7 @@ const userSchema = new Schema({
         // this field will be used to check if the user is an admin or a regular user
         type: String,
         enum: ['user', 'admin'],
-        default: 'user',
+        default: 'admin',
     },
     id: { type: String },
     passwordChangedAt: Date, // this field will be used to check if the user changed their password after the token was issued
