@@ -3,13 +3,12 @@ import validator from 'validator';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto'; // this is a built-in node module that comes with node.js and is used to generate random strings
 const { Schema } = mongoose;
-import { familyMemberSchema } from './familyMember.model.js';
 
 const userSchema = new Schema({
     name: { type: String, required: true },
     lastName: { type: String },
     familyMember: {
-        type: familyMemberSchema,
+        type: Schema.ObjectId,
         ref: 'FamilyMember',
     },
     email: {
@@ -44,7 +43,7 @@ const userSchema = new Schema({
         // this field will be used to check if the user is an admin or a regular user
         type: String,
         enum: ['user', 'admin'],
-        default: 'admin',
+        default: 'user',
     },
     id: { type: String },
     passwordChangedAt: Date, // this field will be used to check if the user changed their password after the token was issued
@@ -85,8 +84,19 @@ userSchema.pre('save', function (next) {
     next();
 });
 
+userSchema.pre(/^find/, function (next) {
+    console.log('userSchema');
+    this.populate({
+        path: 'familyMember',
+    });
+
+    //this.sharedWith.push(this.user.id);
+    next();
+});
+
 // This middleware will be used to hide inactive users from the database, marking them as inactive will not delete them from the database but will hide them to the user
 userSchema.pre(/^find/, function (next) {
+    console.log('hey');
     // this points to the current query
     this.find({ active: { $ne: false } }); // $ne means not equal to false (i.e. active) and will be used to hide inactive users
     next();

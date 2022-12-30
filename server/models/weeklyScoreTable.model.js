@@ -9,7 +9,7 @@ const weeklyScoreTableSchema = new Schema({
     rank: [
         {
             familyMember: {
-                type: Schema.Types.ObjectId,
+                type: Schema.ObjectId,
                 ref: 'User',
                 required: true,
             },

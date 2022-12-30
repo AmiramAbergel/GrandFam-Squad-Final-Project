@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 import validator from 'validator';
-import { grandParentsSchema } from './grandParents.model.js';
 const { Schema } = mongoose;
 
 export const familyMemberSchema = new Schema({
@@ -18,15 +17,41 @@ export const familyMemberSchema = new Schema({
         total: { type: Number, default: 0 },
     },
     maternalGrandparents: {
-        type: Schema.Types.ObjectId,
-        ref: 'Grandparent',
-        //required: true,
+        type: Schema.ObjectId,
+        ref: 'GrandParents',
     },
     paternalGrandparents: {
-        type: Schema.Types.ObjectId,
-        ref: 'Grandparent',
-        //  required: true,
+        type: Schema.ObjectId,
+        ref: 'GrandParents',
     },
 });
+
+familyMemberSchema.pre(/^find/, function (next) {
+    console.log('familyMemberSchema');
+    this.populate({
+        path: 'paternalGrandparents',
+        select: 'grandma',
+    });
+
+    //this.sharedWith.push(this.user.id);
+    next();
+});
+
+familyMemberSchema.pre('validate', function (next) {
+    if (this.maternalGrandparents || this.paternalGrandparents) {
+        next();
+    } else {
+        next(
+            new Error(
+                'Either maternalGrandparents or paternalGrandparents are required'
+            )
+        );
+    }
+});
+
+// .path('paternalGrandparents')
+// .validate(function (paternalGrandparents) {
+//     return this.maternalGrandparents || paternalGrandparents;
+// }, 'Either maternalGrandparents or paternalGrandparents are required');
 
 export const FamilyMember = mongoose.model('FamilyMember', familyMemberSchema);

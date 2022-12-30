@@ -1,22 +1,14 @@
 import { Router } from 'express';
 import { restrictTo, updatePassword } from '../controllers/auth.controller.js';
 import {
-    createGrandparents,
-    createUser,
-    deleteGrandparents,
     deleteMe,
-    deleteUser,
-    getAllGrandparents,
-    getAllUsers,
-    getGrandparents,
     getMe,
     getUser,
     subscribe,
     updateMe,
-    updateUser,
 } from '../controllers/user.controllers.js';
 import { authProtect } from '../middleware/auth.middleware.js';
-import { adminRoute } from './admin.routes.js';
+import { adminRoute } from './grandparentsAdmin.routes.js';
 
 export const userRoute = Router();
 

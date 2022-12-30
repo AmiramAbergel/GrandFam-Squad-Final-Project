@@ -16,7 +16,7 @@ export const grandParentsSchema = new Schema({
     familyID: { type: String, default: uuidv4() },
     sharedWith: [
         {
-            type: Schema.Types.ObjectId,
+            type: Schema.ObjectId,
             ref: 'User',
         },
     ],
