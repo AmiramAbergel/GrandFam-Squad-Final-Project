@@ -17,7 +17,7 @@ const grandParentsTasksSchema = new Schema({
     },
 });
 
-export const grandParentsTasks = mongoose.model(
+export const GrandParentsTasks = mongoose.model(
     'GrandParentsTasks',
     grandParentsTasksSchema
 );

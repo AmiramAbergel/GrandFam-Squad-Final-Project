@@ -1,16 +1,9 @@
 import webpush from 'web-push';
-import { GrandParents } from '../models/grandParents.model.js';
 import { Subscription } from '../models/notificationSubscription.model.js';
 
 import { User } from '../models/userAuth.model.js';
 import AppError from '../utils/appError.js';
-import {
-    createOne,
-    deleteOne,
-    getAll,
-    getOne,
-    updateOne,
-} from './factoryHandler.js';
+import { deleteOne, getAll, getOne, updateOne } from './factoryHandler.js';
 
 // filterObj is used to filter out unwanted fields names that are not allowed to be updated
 const filterObj = (obj, ...allowedFields) => {
@@ -128,9 +121,3 @@ export const getAllUsers = getAll(User);
 // do not update passwords with this!
 export const updateUser = updateOne(User);
 export const deleteUser = deleteOne(User);
-
-// admin only
-export const createGrandparents = createOne(GrandParents);
-export const getAllGrandparents = getAll(GrandParents);
-export const getGrandparents = getOne(GrandParents);
-export const deleteGrandparents = deleteOne(GrandParents);

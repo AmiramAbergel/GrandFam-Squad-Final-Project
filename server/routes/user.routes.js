@@ -16,6 +16,7 @@ import {
     updateUser,
 } from '../controllers/user.controllers.js';
 import { authProtect } from '../middleware/auth.middleware.js';
+import { adminRoute } from './admin.routes.js';
 
 export const userRoute = Router();
 
@@ -28,15 +29,5 @@ userRoute.patch('/updateMe', updateMe); // This route is used to update the user
 userRoute.delete('/deleteMe', deleteMe); // This route is used to delete the user
 
 userRoute.use(restrictTo('admin')); // Restrict all routes after this middleware to only admin users
-
-userRoute.route('/').get(getAllUsers).post(createUser); // '/api/v1/users' is the base url for all user routes
-userRoute
-    .route('/grandparents')
-    .get(getAllGrandparents)
-    .post(createGrandparents); // '/api/v1/users' is the base url for all user routes
-userRoute
-    .route('/grandparents/:id')
-    .get(getGrandparents)
-    .delete(deleteGrandparents);
-
-userRoute.route('/:id').get(getUser).patch(updateUser).delete(deleteUser);
+// grandparent and admin handle routes for admin only
+userRoute.use(adminRoute);
