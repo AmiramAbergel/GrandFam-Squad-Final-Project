@@ -3,12 +3,38 @@ import axios from 'axios';
 console.log(process.env);
 const url = process.env.REACT_APP_BASE_URL;
 
-export default axios.create({
-    baseURL: url,
-    headers: {
-        'Content-Type': 'application/json',
-    },
+const api = axios.create({
+    baseURL: process.env.REACT_APP_SERVER_URL,
 });
+
+export async function clientAPI(
+    endpoint,
+    {
+        data,
+        token,
+        method = 'GET',
+        headers: customHeaders,
+        ...customConfig
+    } = {}
+) {
+    const config = {
+        method,
+        data,
+        headers: {
+            Authorization: token ? `Bearer ${token}` : undefined,
+            'Content-Type': data ? 'application/json' : undefined,
+            ...customHeaders,
+        },
+        ...customConfig,
+    };
+
+    try {
+        const response = await api.request({ url: endpoint, ...config });
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
 
 export const registerServiceWorker = async () => {
     try {
