@@ -6,6 +6,7 @@ import AppError from '../utils/appError.js';
 import url from 'url'; // This is used to parse the url in the forgotPassword function
 import Email from '../utils/emailHandler.js';
 import { FamilyMember } from '../models/familyMember.model.js';
+import { GrandParents } from '../models/grandParents.model.js';
 
 const signToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -41,6 +42,22 @@ export const signup = async (req, res, next) => {
                 : undefined,
         });
         console.log(familyMemberInfo);
+
+        let grandparents = null;
+        if (req.body.familyMember.maternalGrandparents) {
+            grandparents = await GrandParents.findByIdAndUpdate(
+                req.body.familyMember.maternalGrandparents,
+                { $push: { sharedWith: familyMemberInfo._id } },
+                { new: true }
+            );
+        }
+        if (req.body.familyMember.paternalGrandparents) {
+            grandparents = await GrandParents.findByIdAndUpdate(
+                req.body.familyMember.paternalGrandparents,
+                { $push: { sharedWith: familyMemberInfo._id } },
+                { new: true }
+            );
+        }
 
         const newUser = await User.create({
             name: req.body.name,
