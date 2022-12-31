@@ -4,7 +4,6 @@ import {
     deleteMe,
     getMe,
     getUser,
-    subscribe,
     updateMe,
 } from '../controllers/user.controllers.js';
 import { authProtect } from '../middleware/auth.middleware.js';

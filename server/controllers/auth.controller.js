@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config(); // Load ENV Variables
 import jwt from 'jsonwebtoken';
 import AppError from '../utils/appError.js';
+import crypto from 'crypto';
 import url from 'url'; // This is used to parse the url in the forgotPassword function
 import Email from '../utils/emailHandler.js';
 import { FamilyMember } from '../models/familyMember.model.js';
@@ -144,7 +145,7 @@ export const forgotPassword = async (req, res, next) => {
         const { protocol, hostname } = req;
 
         const resetURL = new URL(
-            `${protocol}://${hostname}:4000/api/v1/resetPassword`
+            `${protocol}://${hostname}/api/v1/resetPassword`
         );
 
         const searchParams = new URLSearchParams();
@@ -152,7 +153,7 @@ export const forgotPassword = async (req, res, next) => {
         resetURL.search = searchParams;
         const fixedURL = resetURL.toString();
         console.log(fixedURL);
-        await Email(user).sendPasswordReset(fixedURL);
+        //await Email(user).sendPasswordReset(fixedURL);
 
         res.status(200).json({
             status: 'success',
