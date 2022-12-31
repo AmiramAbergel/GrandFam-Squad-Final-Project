@@ -34,6 +34,7 @@ const Email = (user) => {
         },
 
         async sendPasswordReset(url) {
+            console.log('hrrrr');
             const subject =
                 'Your password reset token (valid for only 10 minutes)';
             const text = `Hi ${this.firstName},Here is your password reset link:${url} This link is only valid for 10 minutes.`;

@@ -137,20 +137,22 @@ export const forgotPassword = async (req, res, next) => {
 
     // 2) Generate the random reset token
     const resetToken = user.createPasswordResetToken(); // createPasswordResetToken() is a function defined in the user model
+
     await user.save({ validateBeforeSave: false }); // validateBeforeSave: false is used to disable all the validators defined in the user model (in this case, the validator that checks if the password and passwordConfirm fields are equal)
     try {
         // 3) Send it to user's email
-        const { protocol, host } = req;
+        const { protocol, hostname } = req;
 
-        const resetURL = new url.URL({
-            protocol,
-            host,
-            pathname: '/api/v1/users/resetPassword',
-            searchParams: new URLSearchParams({
-                token: resetToken,
-            }),
-        }).toString();
-        await new Email(user, resetURL).sendPasswordReset();
+        const resetURL = new URL(
+            `${protocol}://${hostname}:4000/api/v1/resetPassword`
+        );
+
+        const searchParams = new URLSearchParams();
+        searchParams.set('token', resetToken);
+        resetURL.search = searchParams;
+        const fixedURL = resetURL.toString();
+        console.log(fixedURL);
+        await Email(user).sendPasswordReset(fixedURL);
 
         res.status(200).json({
             status: 'success',

@@ -21,9 +21,6 @@ import {
 export const adminRoute = Router();
 adminRoute.route('/').get(getAllUsers).post(createUser); // '/api/v1/users' is the base url for all user routes
 
-adminRoute.route('/:id').get(getUser).patch(updateUser).delete(deleteUser);
-// grandparent handle routes for admin only
-
 adminRoute
     .route('/grandparents')
     .get(getAllGrandparents)
@@ -37,3 +34,6 @@ adminRoute
     .route('/grandparents/tasks')
     .get(getAllGrandParentsTasks)
     .post(createGrandParentsTask);
+
+adminRoute.route('/:id').get(getUser).patch(updateUser).delete(deleteUser);
+// grandparent handle routes for admin only
