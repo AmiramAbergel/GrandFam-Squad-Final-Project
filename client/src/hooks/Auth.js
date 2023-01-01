@@ -3,6 +3,9 @@ import { clientAPI } from '../api/api.js';
 import { useNavigate } from 'react-router-dom';
 
 const authUrl = '/users';
+const loginUrl = '/login';
+const signUpUrl = '/signup';
+const loggedUserUrl = '/users/me';
 
 const AuthUserContext = createContext({
     isLoading: true,
@@ -27,7 +30,7 @@ export function AuthUserProvider({ children }) {
         if (token) {
             (async () => {
                 try {
-                    const { data } = await clientAPI(authUrl, {
+                    const { data } = await clientAPI(loggedUserUrl, {
                         method: 'GET',
                         token,
                     });
@@ -53,10 +56,11 @@ export function AuthUserProvider({ children }) {
 
     async function signUp(email, password) {
         try {
-            const { data } = await clientAPI(authUrl, {
+            const { data } = await clientAPI(signUpUrl, {
                 method: 'POST',
                 data: { email, password },
             });
+            console.log(data);
             setAuthState(data);
             navigate('/');
             return data;
@@ -68,7 +72,7 @@ export function AuthUserProvider({ children }) {
     async function login(email, password) {
         console.log('login');
         try {
-            const { data } = await clientAPI(authUrl, {
+            const { data } = await clientAPI(loginUrl, {
                 method: 'POST',
                 data: { email, password },
                 headers: { 'Content-Type': 'application/json' },
