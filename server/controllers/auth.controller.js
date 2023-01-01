@@ -25,6 +25,7 @@ const createSendToken = (user, statusCode, req, res) => {
         token,
         data: {
             user,
+            token,
         },
     });
 };
@@ -101,10 +102,6 @@ export const login = async (req, res, next) => {
 
 export const logout = async (req, res) => {
     try {
-        req.user.tokens = req.user.tokens.filter(
-            ({ token }) => token !== req.token
-        );
-        await req.user.save();
         res.status(200).json({ status: 'success' });
     } catch (err) {
         next(err, req, res);

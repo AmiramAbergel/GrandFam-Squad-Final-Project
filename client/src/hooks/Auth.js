@@ -2,11 +2,12 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { clientAPI } from '../api/api.js';
 import { useNavigate } from 'react-router-dom';
 
-const authUrl = '/users';
-const loginUrl = '/login';
 const signUpUrl = '/signup';
+const loginUrl = '/login';
+const logoutUrl = '/logout';
 const loggedUserUrl = '/users/me';
-
+const REDIRECT_PAGE = '/score';
+const HOME_PAGE = '/';
 const AuthUserContext = createContext({
     isLoading: true,
     loggedUser: null,
@@ -62,7 +63,7 @@ export function AuthUserProvider({ children }) {
             });
             console.log(data);
             setAuthState(data);
-            navigate('/');
+            navigate(REDIRECT_PAGE);
             return data;
         } catch (err) {
             handleError(err);
@@ -78,7 +79,7 @@ export function AuthUserProvider({ children }) {
                 headers: { 'Content-Type': 'application/json' },
             });
             setAuthState(data);
-            navigate('/');
+            navigate(REDIRECT_PAGE);
             return data;
         } catch (err) {
             handleError(err);
@@ -87,11 +88,16 @@ export function AuthUserProvider({ children }) {
 
     async function logout() {
         try {
-            const res = await clientAPI(authUrl, { method: 'GET', token });
+            const res = await clientAPI(logoutUrl, {
+                method: 'POST',
+                data: { loggedUser },
+            });
             setLoggedUser(null);
             setToken(null);
-            if (res.data.status === 'success') {
-                navigate(0);
+            setIsLoading(true);
+            console.log(res);
+            if (res.status === 'success') {
+                navigate(HOME_PAGE);
             }
         } catch (err) {
             handleError(err);

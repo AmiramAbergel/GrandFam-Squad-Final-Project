@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-console.log(process.env);
 const url = process.env.REACT_APP_BASE_URL;
 
 const api = axios.create({
@@ -27,6 +26,8 @@ export async function clientAPI(
         },
         ...customConfig,
     };
+    console.log(endpoint);
+    console.log(config);
 
     try {
         const response = await api.request({ url: endpoint, ...config });

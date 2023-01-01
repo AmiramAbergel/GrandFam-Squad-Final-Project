@@ -3,7 +3,7 @@ import { registerServiceWorker, subscribe } from './api/api.js';
 import { AuthUserProvider } from './hooks/Auth.js';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Home from './pages/Home.js';
-import NavBar from './components/UI/NavBar/NavBar.js';
+import MainRoutes from './routes/MainRoutes.js';
 function App() {
     const registerAndSubscribe = async () => {
         try {
@@ -25,7 +25,7 @@ function App() {
                         element={<Navigate replace to='/home'></Navigate>}
                     />
                     <Route path='/home' element={<Home />} />
-                    <Route path='*' element={<NavBar />} />
+                    <Route path='*' element={<MainRoutes />} />
                 </Routes>
                 <button onClick={registerAndSubscribe}>
                     subscribe for push notifications

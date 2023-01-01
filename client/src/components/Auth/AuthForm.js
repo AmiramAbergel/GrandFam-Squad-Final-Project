@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import { useAuth } from '../../hooks/Auth.js';
-
 import classes from './AuthForm.module.css';
 import { useNavigate } from 'react-router-dom';
-
 import UserSignForm from './UserSignForm.js';
-const REDIRECT_PAGE = '/flavors';
+
 const AuthForm = () => {
     const navigate = useNavigate();
     const { login, signUp } = useAuth();
@@ -40,7 +38,6 @@ const AuthForm = () => {
             } else {
                 await login(form.email, form.password);
             }
-            navigate(REDIRECT_PAGE);
         } catch (err) {
             console.log('Invalid email or password');
             console.log(err);

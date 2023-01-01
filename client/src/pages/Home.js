@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import classes from './Home.module.css';
 import Modal from '../components/UI/Modal/Modal.js';
