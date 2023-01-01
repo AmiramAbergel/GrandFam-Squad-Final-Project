@@ -85,7 +85,6 @@ userSchema.pre('save', function (next) {
 });
 
 userSchema.pre(/^find/, function (next) {
-    console.log('userSchema');
     this.populate({
         path: 'familyMember',
     });

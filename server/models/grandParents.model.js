@@ -20,6 +20,10 @@ export const grandParentsSchema = new Schema({
             ref: 'User',
         },
     ],
+    familyScore: {
+        type: Schema.ObjectId,
+        ref: 'WeeklyScoreTable',
+    },
     address: { type: String, required: true },
     phone: { type: String, required: true },
     img: {

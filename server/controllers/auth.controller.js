@@ -8,6 +8,7 @@ import url from 'url'; // This is used to parse the url in the forgotPassword fu
 import Email from '../utils/emailHandler.js';
 import { FamilyMember } from '../models/familyMember.model.js';
 import { GrandParents } from '../models/grandParents.model.js';
+import { WeeklyScoreTable } from '../models/weeklyScoreTable.model.js';
 
 const signToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -31,6 +32,8 @@ const createSendToken = (user, statusCode, req, res) => {
 };
 
 export const signup = async (req, res, next) => {
+    let myGrandparents;
+    let scoreTable;
     try {
         const familyMemberInfo = await FamilyMember.create({
             age: req.body.familyMember.age,
@@ -43,20 +46,32 @@ export const signup = async (req, res, next) => {
                 ? req.body.familyMember.paternalGrandparents
                 : undefined,
         });
-        console.log(familyMemberInfo);
 
-        let grandparents = null;
         if (req.body.familyMember.maternalGrandparents) {
-            grandparents = await GrandParents.findByIdAndUpdate(
+            myGrandparents = await GrandParents.findByIdAndUpdate(
                 req.body.familyMember.maternalGrandparents,
-                { $push: { sharedWith: familyMemberInfo._id } },
+                {
+                    $push: { sharedWith: familyMemberInfo._id },
+                },
+                { new: true }
+            );
+
+            scoreTable = await WeeklyScoreTable.findByIdAndUpdate(
+                myGrandparents.familyScore,
+                { $push: { rank: familyMemberInfo._id } },
                 { new: true }
             );
         }
         if (req.body.familyMember.paternalGrandparents) {
-            grandparents = await GrandParents.findByIdAndUpdate(
+            myGrandparents = await GrandParents.findByIdAndUpdate(
                 req.body.familyMember.paternalGrandparents,
                 { $push: { sharedWith: familyMemberInfo._id } },
+                { new: true }
+            );
+
+            scoreTable = await WeeklyScoreTable.findByIdAndUpdate(
+                myGrandparents.familyScore,
+                { $push: { rank: familyMemberInfo._id } },
                 { new: true }
             );
         }

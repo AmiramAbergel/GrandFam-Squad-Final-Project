@@ -27,7 +27,6 @@ export const familyMemberSchema = new Schema({
 });
 
 familyMemberSchema.pre(/^find/, function (next) {
-    console.log('familyMemberSchema');
     this.populate({
         path: 'paternalGrandparents',
         select: 'grandma',
