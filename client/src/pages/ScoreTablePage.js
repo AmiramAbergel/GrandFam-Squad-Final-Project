@@ -1,10 +1,8 @@
-import { useUserGrandParents } from '../hooks/GrandParentsGroupContext.js';
-
-const ScoreTablePage = () => {
-    const { myGrandParents } = useUserGrandParents();
+const ScoreTablePage = (props) => {
+    console.log(props.data[0].familyName);
     return (
         <>
-            <h1>{myGrandParents}</h1>
+            <h1>{props.data[0].familyName}</h1>
         </>
     );
 };

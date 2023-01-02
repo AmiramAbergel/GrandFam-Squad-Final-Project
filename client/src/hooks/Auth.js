@@ -36,7 +36,8 @@ export function AuthUserProvider({ children }) {
                         method: 'GET',
                         token,
                     });
-                    setLoggedUser(data);
+                    console.log(data);
+                    setLoggedUser(data.data);
                 } catch (err) {
                     setError(err);
                 } finally {
