@@ -2,13 +2,13 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import { clientAPI } from '../api/api.js';
 import { useAuth } from './Auth.js';
 
-const UserGrandParentsTasksContext = createContext({
+const UserGrandParentsGroupContext = createContext({
     grandParentsGroup: null,
     getMyGrandParentsGroup: () => {},
 });
 
-export const useUserGrandParentsTasks = () =>
-    useContext(UserGrandParentsTasksContext);
+export const useUserGrandParents = () =>
+    useContext(UserGrandParentsGroupContext);
 
 export function UserGrandParentsGroupProvider({ children }) {
     const { token, loggedUser } = useAuth();
@@ -40,8 +40,8 @@ export function UserGrandParentsGroupProvider({ children }) {
     };
 
     return (
-        <UserGrandParentsTasksContext.Provider value={values}>
+        <UserGrandParentsGroupContext.Provider value={values}>
             {children}
-        </UserGrandParentsTasksContext.Provider>
+        </UserGrandParentsGroupContext.Provider>
     );
 }

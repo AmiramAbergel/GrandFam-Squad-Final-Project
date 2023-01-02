@@ -73,6 +73,8 @@ export const getAll = (Model) => async (req, res, next) => {
         // To allow for nested GET reviews on tour (hack)
         let filter = {};
         if (req.params.taskId) filter = { tasks: req.params.taskId };
+        if (req.params.uid)
+            filter = { sharedWith: { $elemMatch: { $eq: req.params.uid } } };
 
         // Apply filters
         let query = Model.find(filter);

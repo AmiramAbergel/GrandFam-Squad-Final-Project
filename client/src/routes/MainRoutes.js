@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import Layout from '../components/UI/Layout/Layout.js';
 import { useAuth } from '../hooks/Auth.js';
 import GrandparentsMapView from '../pages/GrandparentsMapView.js';
@@ -7,14 +7,15 @@ import ScoreTablePage from '../pages/ScoreTablePage.js';
 const REDIRECT_PAGE = '/';
 const MainRoutes = (props) => {
     const navigate = useNavigate();
-    const { loggedUser, isLoading } = useAuth();
+    const { loggedUser, isLoading, isAuthenticated } = useAuth();
     const [dataIsLoading, setDataisLoading] = useState(true);
     // Listen for changes to loading and authUser, redirect if needed
+    const location = useLocation();
     useEffect(() => {
-        if (isLoading && loggedUser === null) {
+        if (!isAuthenticated && location.pathname === REDIRECT_PAGE) {
             navigate(REDIRECT_PAGE);
         }
-    }, [loggedUser, isLoading, navigate]);
+    }, [isAuthenticated, location.pathname, navigate]);
     return (
         <Layout>
             <Routes>

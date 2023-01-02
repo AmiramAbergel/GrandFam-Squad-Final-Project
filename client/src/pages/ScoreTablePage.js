@@ -1,4 +1,4 @@
-import { useUserGrandParents } from '../hooks/GrandParentsContext.js';
+import { useUserGrandParents } from '../hooks/GrandParentsGroupContext.js';
 
 const ScoreTablePage = () => {
     const { myGrandParents } = useUserGrandParents();

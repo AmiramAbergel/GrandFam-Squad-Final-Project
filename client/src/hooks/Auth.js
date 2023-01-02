@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { clientAPI } from '../api/api.js';
 import { useNavigate } from 'react-router-dom';
-
+import Cookies from 'js-cookie';
 const signUpUrl = '/signup';
 const loginUrl = '/login';
 const logoutUrl = '/logout';
@@ -9,9 +9,8 @@ const loggedUserUrl = '/users/me';
 const REDIRECT_PAGE = '/score';
 const HOME_PAGE = '/';
 const AuthUserContext = createContext({
-    isLoading: true,
+    isAuthenticated: false,
     loggedUser: null,
-    token: null,
     error: null,
     signUp: () => {},
     login: () => {},
@@ -25,11 +24,11 @@ export function AuthUserProvider({ children }) {
     const [loggedUser, setLoggedUser] = useState(null);
     const [loggedUserFamMember, setLoggedUserFamMember] = useState(null);
 
-    const [token, setToken] = useState(null);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
+        const token = Cookies.get('token');
         if (token) {
             (async () => {
                 try {
@@ -45,11 +44,11 @@ export function AuthUserProvider({ children }) {
                 }
             })();
         }
-    }, [token]);
+    }, []);
 
     const setAuthState = (data) => {
         setLoggedUser(data);
-        setToken(data.token);
+        Cookies.set('token', data.token);
     };
 
     const handleError = (error) => {
@@ -63,7 +62,7 @@ export function AuthUserProvider({ children }) {
                 method: 'POST',
                 data: { email, password },
             });
-            console.log(data);
+
             setAuthState(data);
             navigate(REDIRECT_PAGE);
             return data;
@@ -81,6 +80,7 @@ export function AuthUserProvider({ children }) {
                 headers: { 'Content-Type': 'application/json' },
             });
             setAuthState(data);
+            Cookies.set('token', data.token); // store the token in a cookie
             navigate(REDIRECT_PAGE);
             return data;
         } catch (err) {
@@ -95,9 +95,8 @@ export function AuthUserProvider({ children }) {
                 data: { loggedUser },
             });
             setLoggedUser(null);
-            setToken(null);
             setIsLoading(true);
-            console.log(res);
+            Cookies.remove('token'); // remove the token cookie
             if (res.status === 'success') {
                 navigate(HOME_PAGE);
             }
@@ -107,7 +106,7 @@ export function AuthUserProvider({ children }) {
     }
 
     const values = {
-        token,
+        isAuthenticated: Boolean(loggedUser),
         signUp,
         login,
         logout,

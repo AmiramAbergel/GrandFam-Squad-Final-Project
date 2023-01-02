@@ -11,6 +11,7 @@ import { GrandParents } from '../models/grandParents.model.js';
 import { WeeklyScoreTable } from '../models/weeklyScoreTable.model.js';
 
 const signToken = (id) => {
+    console.log(id);
     return jwt.sign({ id }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_EXPIRES_IN,
     });
