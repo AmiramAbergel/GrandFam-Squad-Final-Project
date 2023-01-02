@@ -1,11 +1,13 @@
 import { GrandParents } from '../models/grandParents.model.js';
+import { User } from '../models/userAuth.model.js';
 import { WeeklyScoreTable } from '../models/weeklyScoreTable.model.js';
 import { createOne, deleteOne, getAll, getOne } from './factoryHandler.js';
 
 // admin only
 export const createGrandparents = async (req, res, next) => {
+    let newGrandparents;
     try {
-        const newGrandparents = await GrandParents.create({
+        newGrandparents = await GrandParents.create({
             grandma: req.body.grandma,
             spouse: req.body.spouse,
             familyName: req.body.familyName,
@@ -39,6 +41,14 @@ export const createGrandparents = async (req, res, next) => {
             { $set: { familyScore: createScoreTable._id } },
             { new: true }
         );
+
+        let grandparentsUser = await User.findByIdAndUpdate(
+            req.body.sharedWith[0],
+            {
+                $push: { myGrandparentsGroups: newGrandparents._id },
+            },
+            { new: true }
+        );
         res.status(201).json({
             status: 'success',
             data: {
@@ -48,8 +58,8 @@ export const createGrandparents = async (req, res, next) => {
         });
     } catch (err) {
         // delete the familyMember document if the newUser document was not created
-        if (familyMemberInfo) {
-            await familyMemberInfo.deleteOne();
+        if (newGrandparents) {
+            await newGrandparents.deleteOne();
         }
         next(err, req, res);
     }

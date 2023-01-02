@@ -34,60 +34,67 @@ const createSendToken = (user, statusCode, req, res) => {
 export const signup = async (req, res, next) => {
     let myGrandparents;
     let scoreTable;
+    let familyMemberInfo;
     try {
-        const familyMemberInfo = await FamilyMember.create({
-            age: req.body.familyMember.age,
-            address: req.body.familyMember.address,
-            phone: req.body.familyMember.phone,
-            maternalGrandparents: req.body.familyMember.maternalGrandparents
-                ? req.body.familyMember.maternalGrandparents
-                : undefined,
-            paternalGrandparents: req.body.familyMember.paternalGrandparents
-                ? req.body.familyMember.paternalGrandparents
-                : undefined,
-        });
+        if (req.body.familyMember) {
+            familyMemberInfo = await FamilyMember.create({
+                age: req.body.familyMember.age,
+                address: req.body.familyMember.address,
+                phone: req.body.familyMember.phone,
+                maternalGrandparents: req.body.familyMember.maternalGrandparents
+                    ? req.body.familyMember.maternalGrandparents
+                    : undefined,
+                paternalGrandparents: req.body.familyMember.paternalGrandparents
+                    ? req.body.familyMember.paternalGrandparents
+                    : undefined,
+            });
+            if (req.body.familyMember.maternalGrandparents) {
+                myGrandparents = await GrandParents.findByIdAndUpdate(
+                    req.body.familyMember.maternalGrandparents,
+                    {
+                        $push: { sharedWith: familyMemberInfo._id },
+                    },
+                    { new: true }
+                );
 
-        if (req.body.familyMember.maternalGrandparents) {
-            myGrandparents = await GrandParents.findByIdAndUpdate(
-                req.body.familyMember.maternalGrandparents,
-                {
-                    $push: { sharedWith: familyMemberInfo._id },
-                },
-                { new: true }
-            );
+                scoreTable = await WeeklyScoreTable.findByIdAndUpdate(
+                    myGrandparents.familyScore,
+                    { $push: { rank: familyMemberInfo._id } },
+                    { new: true }
+                );
+            }
+            if (req.body.familyMember.paternalGrandparents) {
+                myGrandparents = await GrandParents.findByIdAndUpdate(
+                    req.body.familyMember.paternalGrandparents,
+                    { $push: { sharedWith: familyMemberInfo._id } },
+                    { new: true }
+                );
 
-            scoreTable = await WeeklyScoreTable.findByIdAndUpdate(
-                myGrandparents.familyScore,
-                { $push: { rank: familyMemberInfo._id } },
-                { new: true }
-            );
-        }
-        if (req.body.familyMember.paternalGrandparents) {
-            myGrandparents = await GrandParents.findByIdAndUpdate(
-                req.body.familyMember.paternalGrandparents,
-                { $push: { sharedWith: familyMemberInfo._id } },
-                { new: true }
-            );
-
-            scoreTable = await WeeklyScoreTable.findByIdAndUpdate(
-                myGrandparents.familyScore,
-                { $push: { rank: familyMemberInfo._id } },
-                { new: true }
-            );
+                scoreTable = await WeeklyScoreTable.findByIdAndUpdate(
+                    myGrandparents.familyScore,
+                    { $push: { rank: familyMemberInfo._id } },
+                    { new: true }
+                );
+            }
         }
 
         const newUser = await User.create({
             name: req.body.name,
             lastName: req.body.lastName,
-            familyMember: familyMemberInfo._id,
             email: req.body.email,
             password: req.body.password,
             passwordConfirm: req.body.passwordConfirm,
+            ...(req.body.familyMember
+                ? { familyMember: familyMemberInfo._id }
+                : {}),
         });
 
         await Object.create(Email(newUser)).sendWelcome();
         createSendToken(newUser, 201, req, res);
     } catch (err) {
+        if (familyMemberInfo) {
+            await familyMemberInfo.deleteOne();
+        }
         next(err, req, res);
     }
 };
@@ -101,8 +108,11 @@ export const login = async (req, res, next) => {
             return next(AppError('Please provide email and password!', 400));
         }
         // 2) Check if user exists && password is correct
-        const user = await User.findOne({ email }).select('+password'); // select('+password') is used to select the password field in the body of the response (it is not selected by default) because it is set to select: false in the user model
-
+        const user = await User.findOne({ email })
+            .select('+password')
+            .populate({ path: 'familyMember', model: FamilyMember })
+            .exec(); // select('+password') is used to select the password field in the body of the response (it is not selected by default) because it is set to select: false in the user model
+        console.log(user);
         if (!user || !(await user.correctPassword(password, user.password))) {
             // if the user does not exist or the password is incorrect then return an error
             return next(AppError('Incorrect email or password', 401));

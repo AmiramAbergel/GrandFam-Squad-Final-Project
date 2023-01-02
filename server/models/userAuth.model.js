@@ -45,7 +45,7 @@ const userSchema = new Schema({
         enum: ['user', 'admin'],
         default: 'user',
     },
-    id: { type: String },
+    myGrandparentsGroups: { type: Array, default: [] },
     passwordChangedAt: Date, // this field will be used to check if the user changed their password after the token was issued
     passwordResetToken: String, // this field will be used to store the reset token
     passwordResetExpires: Date, // this field will be used to store the expiration date of the reset token

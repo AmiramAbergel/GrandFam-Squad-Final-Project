@@ -4,6 +4,7 @@ import { AuthUserProvider } from './hooks/Auth.js';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Home from './pages/Home.js';
 import MainRoutes from './routes/MainRoutes.js';
+import { UserGrandParentsProvider } from './hooks/GrandParentsContext.js';
 function App() {
     const registerAndSubscribe = async () => {
         try {
@@ -19,17 +20,19 @@ function App() {
     return (
         <div className='App'>
             <AuthUserProvider>
-                <Routes>
-                    <Route
-                        path='/'
-                        element={<Navigate replace to='/home'></Navigate>}
-                    />
-                    <Route path='/home' element={<Home />} />
-                    <Route path='*' element={<MainRoutes />} />
-                </Routes>
-                <button onClick={registerAndSubscribe}>
-                    subscribe for push notifications
-                </button>
+                <UserGrandParentsProvider>
+                    <Routes>
+                        <Route
+                            path='/'
+                            element={<Navigate replace to='/home'></Navigate>}
+                        />
+                        <Route path='/home' element={<Home />} />
+                        <Route path='*' element={<MainRoutes />} />
+                    </Routes>
+                    <button onClick={registerAndSubscribe}>
+                        subscribe for push notifications
+                    </button>
+                </UserGrandParentsProvider>
             </AuthUserProvider>
         </div>
     );

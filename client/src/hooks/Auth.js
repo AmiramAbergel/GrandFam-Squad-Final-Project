@@ -23,6 +23,8 @@ export const useAuth = () => useContext(AuthUserContext);
 export function AuthUserProvider({ children }) {
     const [isLoading, setIsLoading] = useState(true);
     const [loggedUser, setLoggedUser] = useState(null);
+    const [loggedUserFamMember, setLoggedUserFamMember] = useState(null);
+
     const [token, setToken] = useState(null);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
@@ -113,7 +115,7 @@ export function AuthUserProvider({ children }) {
         loggedUser,
         isLoading,
     };
-
+    console.log(loggedUser);
     return (
         <AuthUserContext.Provider value={values}>
             {children}

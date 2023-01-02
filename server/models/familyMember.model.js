@@ -36,6 +36,16 @@ familyMemberSchema.pre(/^find/, function (next) {
     next();
 });
 
+familyMemberSchema.pre(/^find/, function (next) {
+    this.populate({
+        path: 'maternalGrandparents',
+        select: 'grandma',
+    });
+
+    //this.sharedWith.push(this.user.id);
+    next();
+});
+
 familyMemberSchema.pre('validate', function (next) {
     if (this.maternalGrandparents || this.paternalGrandparents) {
         next();
