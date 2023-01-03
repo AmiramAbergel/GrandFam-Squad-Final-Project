@@ -37,7 +37,6 @@ export function AuthUserProvider({ children }) {
                         method: 'GET',
                         token,
                     });
-                    console.log(data);
                     setLoggedUser(data.data);
                     setToken(token);
                 } catch (err) {
@@ -69,14 +68,13 @@ export function AuthUserProvider({ children }) {
     }
 
     async function login(email, password) {
-        console.log('login');
         try {
             const { data } = await clientAPI(loginUrl, {
                 method: 'POST',
                 data: { email, password },
                 headers: { 'Content-Type': 'application/json' },
             });
-            console.log(data);
+
             Cookies.set('token', data.token); // store the token in a cookie
             setLoggedUser(data.user);
             navigate(REDIRECT_PAGE);
@@ -113,7 +111,7 @@ export function AuthUserProvider({ children }) {
         loggedUser,
         isLoading,
     };
-    console.log(loggedUser);
+
     return (
         <AuthUserContext.Provider value={values}>
             {children}

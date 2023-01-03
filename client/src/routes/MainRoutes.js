@@ -1,12 +1,13 @@
 import Cookies from 'js-cookie';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import Layout from '../components/UI/Layout/Layout.js';
 import { useAuth } from '../hooks/Auth.js';
 import { useUserGrandParents } from '../hooks/GrandParentsGroupContext.js';
 import { useGroupScoreTable } from '../hooks/GroupScoreTableContext.js';
 import GrandparentsMapView from '../pages/GrandparentsMapView.js';
-import GroupsPage from '../pages/GroupsPage.js';
+import DndCalendar from '../pages/Schedule.js';
+
 import ScoreTablePage from '../pages/ScoreTablePage.js';
 const REDIRECT_PAGE = '/';
 
@@ -15,23 +16,27 @@ const MainRoutes = (props) => {
     const { scoreTable } = useGroupScoreTable();
     const navigate = useNavigate();
     const { isAuthenticated } = useAuth();
+    const [loading, setLoading] = useState(true);
+    const [token, setToken] = useState(null);
     // Listen for changes to loading and authUser, redirect if needed
-    console.log(scoreTable);
+
     useEffect(() => {
-        const token = Cookies.get('token');
-        console.log(token);
-        if (!token) {
+        const cToken = Cookies.get('token');
+        setToken(cToken);
+        setLoading(!myGroup || !scoreTable);
+        if (!cToken) {
             navigate(REDIRECT_PAGE);
         }
-    }, [navigate]);
+    }, [token, myGroup]);
+    console.log('render');
     return (
         <Layout>
             <Routes>
                 <Route
                     path='/score'
                     element={
-                        !isAuthenticated || !scoreTable ? (
-                            'Loading...'
+                        !isAuthenticated || !loading ? (
+                            '!!!Loading...'
                         ) : (
                             <ScoreTablePage />
                         )
@@ -40,10 +45,20 @@ const MainRoutes = (props) => {
                 <Route
                     path='/map'
                     element={
-                        !isAuthenticated || !myGroup ? (
-                            'Loading...'
+                        !isAuthenticated || !loading ? (
+                            '!!!!Loading...'
                         ) : (
                             <GrandparentsMapView />
+                        )
+                    }
+                />
+                <Route
+                    path='/schedule'
+                    element={
+                        !isAuthenticated || !loading ? (
+                            '!!!!Loading...'
+                        ) : (
+                            <DndCalendar />
                         )
                     }
                 />

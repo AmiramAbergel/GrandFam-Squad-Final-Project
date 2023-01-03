@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { useAuth } from '../../hooks/Auth.js';
 import classes from './AuthForm.module.css';
-import { useNavigate } from 'react-router-dom';
+
 import UserSignForm from './UserSignForm.js';
 
 const AuthForm = () => {
-    const navigate = useNavigate();
     const { login, signUp } = useAuth();
     const [isSignUp, setIsSignUp] = useState(false); // new state variable
     const [form, setForm] = useState({
@@ -16,7 +15,6 @@ const AuthForm = () => {
         lastName: '',
     });
     const [isLoading, setIsLoading] = useState(false);
-    const [isLogin, setIsLogin] = useState(true);
 
     const changeHandler = (e) => {
         setForm((prev) => ({ ...prev, [e.target.id]: e.target.value }));

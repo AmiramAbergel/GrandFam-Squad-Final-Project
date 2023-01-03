@@ -27,7 +27,6 @@ export async function clientAPI(
         ...customConfig,
     };
     console.log(endpoint);
-    console.log(config);
 
     try {
         const response = await api.request({ url: endpoint, ...config });

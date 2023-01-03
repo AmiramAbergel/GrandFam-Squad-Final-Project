@@ -29,7 +29,6 @@ function App() {
                         element={<Navigate replace to='/home'></Navigate>}
                     />
                     <Route path='/home' element={<Home />} />
-
                     <Route
                         path='/my-groups'
                         element={

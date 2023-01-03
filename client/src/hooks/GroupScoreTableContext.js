@@ -23,7 +23,6 @@ export function GroupScoreTableProvider({ children }) {
                 method: 'GET',
                 token,
             });
-            console.log(data.data);
             setScoreTable(data.data);
         } catch (err) {
             throw err;
@@ -32,7 +31,6 @@ export function GroupScoreTableProvider({ children }) {
 
     useEffect(() => {
         if (myGroup && loggedUser?._id) {
-            console.log(myGroup);
             setScoreTableID(myGroup.familyScore);
             getScoreTable(myGroup.familyScore);
         } else {

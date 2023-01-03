@@ -2,25 +2,32 @@ import GoogleMapReact from 'google-map-react';
 import { useState } from 'react';
 import LocationInfoBox from './MapDetails/LocationInfoBox.js';
 import LocationMarker from './MapDetails/LocationMarker.js';
-const Map = ({ center, zoom }) => {
-    const [locationInfo, setLocationInfo] = useState(null);
+import styled from '@emotion/styled';
+import { useUserGrandParents } from '../../hooks/GrandParentsGroupContext.js';
+const StyledMap = styled.div`
+    width: calc(100% - 100px);
+    height: 65vh;
+    position: relative;
+`;
 
-    // const markers = grandparentsData.map((attr) => {
-    //     return attr.locationAddress.map(({ name, lat, lng }, i) => {
-    //         return (
-    //             <LocationMarker
-    //                 key={i}
-    //                 name={name}
-    //                 lat={lat}
-    //                 lng={lng}
-    //                 onClick={() => setLocationInfo({ id: i, title: name })}
-    //             />
-    //         );
-    //     });
-    // });
+const Map = ({ center, zoom }) => {
+    const { myGroup } = useUserGrandParents();
+    const [locationInfo, setLocationInfo] = useState(null);
+    const markers = myGroup.location.map(({ name, lat, lng }, i) => {
+        console.log(myGroup.location);
+        return (
+            <LocationMarker
+                key={i}
+                name={name}
+                lat={lat}
+                lng={lng}
+                onClick={() => setLocationInfo({ id: i, title: name })}
+            />
+        );
+    });
 
     return (
-        <div className='map'>
+        <StyledMap>
             <GoogleMapReact
                 bootstrapURLKeys={{
                     key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
@@ -28,10 +35,10 @@ const Map = ({ center, zoom }) => {
                 defaultCenter={center}
                 defaultZoom={zoom}
             >
-                {/* {markers} */}
+                {markers}
             </GoogleMapReact>
             {locationInfo && <LocationInfoBox info={locationInfo} />}
-        </div>
+        </StyledMap>
     );
 };
 
@@ -41,7 +48,7 @@ Map.defaultProps = {
         lat: 32.0940605515037,
         lng: 34.77098020928202,
     },
-    zoom: 10,
+    zoom: 15,
 };
 
 export default Map;

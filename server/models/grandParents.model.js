@@ -31,11 +31,13 @@ export const grandParentsSchema = new Schema({
         required: true,
         default: 'https://xsgames.co/randomusers/avatar.php?g=pixel',
     },
-    location: {
-        name: String,
-        lat: Number, // [latitude,longitude]
-        lng: Number,
-    },
+    location: [
+        {
+            name: String,
+            lat: Number, // [latitude,longitude]
+            lng: Number,
+        },
+    ],
 });
 
 export const GrandParents = mongoose.model('GrandParents', grandParentsSchema);

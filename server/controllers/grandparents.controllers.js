@@ -14,6 +14,7 @@ export const createGrandparents = async (req, res, next) => {
             sharedWith: req.body.sharedWith,
             address: req.body.address,
             phone: req.body.phone,
+            location: req.body.location,
         });
 
         const getWeek = () => {

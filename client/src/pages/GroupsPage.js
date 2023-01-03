@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useUserGrandParents } from '../hooks/GrandParentsGroupContext.js';
 import styled from '@emotion/styled';
 const REDIRECT_PAGE = '/score';
@@ -24,10 +23,18 @@ const StyledButton = styled.button`
 
 const GroupsPage = () => {
     const navigate = useNavigate();
-    const { myGrandParentsGroups, setMyGroupID } = useUserGrandParents();
+    const { myGrandParentsGroups, setMyGroup, myGrandParents } =
+        useUserGrandParents();
 
-    const handleGroupClick = (groupID) => {
-        setMyGroupID(groupID);
+    const handleGroupClick = async (event) => {
+        const groupID = event.target.value;
+        let FilteredGroup = {};
+        console.log(event);
+        FilteredGroup = myGrandParents.find(
+            (group) => group.familyID === groupID
+        );
+        console.log(FilteredGroup);
+        await setMyGroup(FilteredGroup);
         navigate(REDIRECT_PAGE);
     };
 
@@ -41,7 +48,8 @@ const GroupsPage = () => {
                         return (
                             <StyledButton
                                 key={i}
-                                onClick={() => handleGroupClick(group.familyID)}
+                                value={group.familyID}
+                                onClick={handleGroupClick}
                             >
                                 {group.familyName}
                             </StyledButton>
