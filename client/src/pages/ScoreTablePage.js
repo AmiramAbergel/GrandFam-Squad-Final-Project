@@ -1,8 +1,7 @@
-const ScoreTablePage = (props) => {
-    console.log(props.data[0].familyName);
+const ScoreTablePage = () => {
     return (
         <>
-            <h1>{props.data[0].familyName}</h1>
+            <h1>{}</h1>
         </>
     );
 };

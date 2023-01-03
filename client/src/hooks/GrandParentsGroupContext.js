@@ -15,6 +15,8 @@ export function UserGrandParentsGroupProvider({ children }) {
     const { loggedUser, isAuthenticated } = useAuth();
     const [myGrandParents, setMyGrandParents] = useState(null);
     const [myGrandParentsGroups, setMyGrandParentsGroups] = useState(null);
+    const [myGroupID, setMyGroupID] = useState(null);
+    const [myGroup, setMyGroup] = useState(null);
 
     const token = Cookies.get('token');
     const getAllGrandParents = async () => {
@@ -47,17 +49,29 @@ export function UserGrandParentsGroupProvider({ children }) {
             throw err;
         }
     };
+    const filterChosenGroup = () => {
+        let FilteredGroup = {};
+        FilteredGroup = myGrandParents.find(
+            (group) => group.familyID === myGroupID
+        );
+
+        setMyGroup(FilteredGroup);
+    };
     useEffect(() => {
         if (loggedUser?._id) {
             getAllGrandParents();
             getAllGrandParentsGroups();
+            if (myGrandParentsGroups && myGroupID) filterChosenGroup();
         } else {
             setMyGrandParents(null);
         }
-    }, [loggedUser, token]);
+    }, [loggedUser, token, myGroupID]);
 
     const values = {
         myGrandParents,
+        myGrandParentsGroups,
+        setMyGroupID,
+        myGroup,
     };
 
     return (

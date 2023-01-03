@@ -9,8 +9,9 @@
         "node": true,
         "es6": true
     },
-    "plugins": ["import", "jsx-a11y", "node", "prettier", "react"],
+    "plugins": ["import", "jsx-a11y", "node", "prettier", "react", "@emotion"],
     "rules": {
+        "@emotion/jsx-import": "error",
         "prettier/prettier": "error",
         "spaced-comment": "off",
         "no-console": "warn",
