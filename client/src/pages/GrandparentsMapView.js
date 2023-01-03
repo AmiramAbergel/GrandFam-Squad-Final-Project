@@ -1,6 +1,6 @@
 import Map from '../components/Map/Map.js';
 
-const GrandparentsMapView = (props) => {
+const GrandparentsMapView = () => {
     return (
         <>
             <Map />;

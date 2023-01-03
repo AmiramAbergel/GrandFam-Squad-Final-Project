@@ -2,22 +2,22 @@ import GoogleMapReact from 'google-map-react';
 import { useState } from 'react';
 import LocationInfoBox from './MapDetails/LocationInfoBox.js';
 import LocationMarker from './MapDetails/LocationMarker.js';
-const Map = ({ grandparentsData, center, zoom }) => {
+const Map = ({ center, zoom }) => {
     const [locationInfo, setLocationInfo] = useState(null);
 
-    const markers = grandparentsData.map((attr) => {
-        return attr.locationAddress.map(({ name, lat, lng }, i) => {
-            return (
-                <LocationMarker
-                    key={i}
-                    name={name}
-                    lat={lat}
-                    lng={lng}
-                    onClick={() => setLocationInfo({ id: i, title: name })}
-                />
-            );
-        });
-    });
+    // const markers = grandparentsData.map((attr) => {
+    //     return attr.locationAddress.map(({ name, lat, lng }, i) => {
+    //         return (
+    //             <LocationMarker
+    //                 key={i}
+    //                 name={name}
+    //                 lat={lat}
+    //                 lng={lng}
+    //                 onClick={() => setLocationInfo({ id: i, title: name })}
+    //             />
+    //         );
+    //     });
+    // });
 
     return (
         <div className='map'>
@@ -28,7 +28,7 @@ const Map = ({ grandparentsData, center, zoom }) => {
                 defaultCenter={center}
                 defaultZoom={zoom}
             >
-                {markers}
+                {/* {markers} */}
             </GoogleMapReact>
             {locationInfo && <LocationInfoBox info={locationInfo} />}
         </div>

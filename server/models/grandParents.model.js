@@ -32,10 +32,9 @@ export const grandParentsSchema = new Schema({
         default: 'https://xsgames.co/randomusers/avatar.php?g=pixel',
     },
     location: {
-        type: { type: String, default: 'Point', enum: ['Point'] },
-        coordinates: [Number], // [latitude,longitude]
-        address: String,
-        description: String,
+        name: String,
+        lat: Number, // [latitude,longitude]
+        lng: Number,
     },
 });
 
