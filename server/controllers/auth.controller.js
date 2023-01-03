@@ -11,7 +11,6 @@ import { GrandParents } from '../models/grandParents.model.js';
 import { WeeklyScoreTable } from '../models/weeklyScoreTable.model.js';
 
 const signToken = (id) => {
-    console.log(id);
     return jwt.sign({ id }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_EXPIRES_IN,
     });
@@ -113,7 +112,7 @@ export const login = async (req, res, next) => {
             .select('+password')
             .populate({ path: 'familyMember', model: FamilyMember })
             .exec(); // select('+password') is used to select the password field in the body of the response (it is not selected by default) because it is set to select: false in the user model
-        console.log(user);
+
         if (!user || !(await user.correctPassword(password, user.password))) {
             // if the user does not exist or the password is incorrect then return an error
             return next(AppError('Incorrect email or password', 401));
@@ -175,7 +174,7 @@ export const forgotPassword = async (req, res, next) => {
         searchParams.set('token', resetToken);
         resetURL.search = searchParams;
         const fixedURL = resetURL.toString();
-        console.log(fixedURL);
+
         //await Email(user).sendPasswordReset(fixedURL);
 
         res.status(200).json({

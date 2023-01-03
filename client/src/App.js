@@ -6,6 +6,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import Home from './pages/Home.js';
 import MainRoutes from './routes/MainRoutes.js';
 import { UserGrandParentsGroupProvider } from './hooks/GrandParentsGroupContext.js';
+import GroupsPage from './pages/GroupsPage.js';
 function App() {
     const registerAndSubscribe = async () => {
         try {
@@ -27,6 +28,15 @@ function App() {
                         element={<Navigate replace to='/home'></Navigate>}
                     />
                     <Route path='/home' element={<Home />} />
+
+                    <Route
+                        path='/my-groups'
+                        element={
+                            <UserGrandParentsGroupProvider>
+                                <GroupsPage />
+                            </UserGrandParentsGroupProvider>
+                        }
+                    />
                     <Route
                         path='*'
                         element={

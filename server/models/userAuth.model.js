@@ -95,7 +95,6 @@ userSchema.pre(/^find/, function (next) {
 
 // This middleware will be used to hide inactive users from the database, marking them as inactive will not delete them from the database but will hide them to the user
 userSchema.pre(/^find/, function (next) {
-    console.log('hey');
     // this points to the current query
     this.find({ active: { $ne: false } }); // $ne means not equal to false (i.e. active) and will be used to hide inactive users
     next();

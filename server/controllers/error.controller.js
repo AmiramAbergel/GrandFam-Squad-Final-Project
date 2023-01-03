@@ -55,7 +55,6 @@ export default (err, req, res, next) => {
         error = handleCastErrorDB(error);
     }
     if (error.code === 11000) {
-        console.log('Hey!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
         // If the error is a duplicate field error (e.g. duplicate email)
         error = handleDuplicateFieldsDB(error);
     }

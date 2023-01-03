@@ -6,9 +6,11 @@ const signUpUrl = '/signup';
 const loginUrl = '/login';
 const logoutUrl = '/logout';
 const loggedUserUrl = '/users/me';
-const REDIRECT_PAGE = '/score';
+
+const REDIRECT_PAGE = '/my-groups';
 const HOME_PAGE = '/';
 const AuthUserContext = createContext({
+    token: null,
     isAuthenticated: false,
     loggedUser: null,
     error: null,
@@ -22,8 +24,7 @@ export const useAuth = () => useContext(AuthUserContext);
 export function AuthUserProvider({ children }) {
     const [isLoading, setIsLoading] = useState(true);
     const [loggedUser, setLoggedUser] = useState(null);
-    const [loggedUserFamMember, setLoggedUserFamMember] = useState(null);
-
+    const [token, setToken] = useState(null);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
@@ -38,6 +39,7 @@ export function AuthUserProvider({ children }) {
                     });
                     console.log(data);
                     setLoggedUser(data.data);
+                    setToken(token);
                 } catch (err) {
                     setError(err);
                 } finally {
@@ -46,11 +48,6 @@ export function AuthUserProvider({ children }) {
             })();
         }
     }, []);
-
-    const setAuthState = (data) => {
-        setLoggedUser(data);
-        Cookies.set('token', data.token);
-    };
 
     const handleError = (error) => {
         setError(error);
@@ -63,8 +60,7 @@ export function AuthUserProvider({ children }) {
                 method: 'POST',
                 data: { email, password },
             });
-
-            setAuthState(data);
+            setLoggedUser(data);
             navigate(REDIRECT_PAGE);
             return data;
         } catch (err) {
@@ -80,8 +76,9 @@ export function AuthUserProvider({ children }) {
                 data: { email, password },
                 headers: { 'Content-Type': 'application/json' },
             });
-            setAuthState(data);
+            console.log(data);
             Cookies.set('token', data.token); // store the token in a cookie
+            setLoggedUser(data.user);
             navigate(REDIRECT_PAGE);
             return data;
         } catch (err) {
@@ -108,6 +105,7 @@ export function AuthUserProvider({ children }) {
 
     const values = {
         isAuthenticated: Boolean(loggedUser),
+        token,
         signUp,
         login,
         logout,

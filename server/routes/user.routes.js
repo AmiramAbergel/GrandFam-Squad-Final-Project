@@ -30,12 +30,11 @@ userRoute.patch('/updateMyPassword', updatePassword); // This route is used to u
 userRoute.get('/me', getMe, getUser); // This route is used to update the user's password
 userRoute.patch('/updateMe', updateMe); // This route is used to update the user's name and email
 userRoute.delete('/deleteMe', deleteMe); // This route is used to delete the user
-userRoute.route('/grandparents').get(getAllGrandparentsGroups);
+
 userRoute.route('/grandparents/new').post(createGrandparents);
 userRoute.route('/grandparents/tasks').get(getAllGrandParentsTasks);
 userRoute.route('/familyMember/:id').get(getMeAsFamilyMember);
 userRoute.route('/:uid/grandparents').get(getAllGrandparents);
-
 userRoute.use(restrictTo('admin')); // Restrict all routes after this middleware to only admin users
 // grandparent and admin handle routes for admin only
 userRoute.use(adminRoute);

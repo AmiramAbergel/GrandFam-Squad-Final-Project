@@ -72,9 +72,12 @@ export const getAll = (Model) => async (req, res, next) => {
     try {
         // To allow for nested GET reviews on tour (hack)
         let filter = {};
-        if (req.params.taskId) filter = { tasks: req.params.taskId };
-        if (req.params.uid)
+        if (req.params.taskId) {
+            filter = { tasks: req.params.taskId };
+        }
+        if (req.params.uid) {
             filter = { sharedWith: { $elemMatch: { $eq: req.params.uid } } };
+        }
 
         // Apply filters
         let query = Model.find(filter);
@@ -84,17 +87,19 @@ export const getAll = (Model) => async (req, res, next) => {
         } else {
             query = query.sort('-createdAt');
         }
-        // Select fields
+
         if (req.query.fields) {
             const fields = req.query.fields.split(',').join(' ');
             query = query.select(fields);
+        } else if (req.query.groups) {
+            // Select fields
+            query = query.select('familyID familyName').exec();
         } else {
             query = query.select('-__v');
         }
 
         // Execute query
         const doc = await query;
-
         // Send response
         res.status(200).json({
             status: 'success',
