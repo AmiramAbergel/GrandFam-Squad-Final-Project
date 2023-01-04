@@ -26,9 +26,9 @@ const StyledMap = styled.div`
 
 const Map = ({ center, zoom }) => {
     const { myGroup } = useUserGrandParents();
+    console.log('myGroup', myGroup);
     const [locationInfo, setLocationInfo] = useState(null);
     const markers = myGroup.location.map(({ name, lat, lng }, i) => {
-        console.log(myGroup.location);
         return (
             <LocationMarker
                 key={i}

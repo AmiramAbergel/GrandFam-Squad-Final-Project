@@ -4,16 +4,16 @@ import Modal from '../components/UI/Modal/Modal.js';
 import AuthForm from '../components/Auth/AuthForm.js';
 import styled from '@emotion/styled';
 import { keyframes } from '@emotion/react';
-import MyImage from '../assets/LogoBG.png';
+import MyImage from '../assets/LogoNonBG.png';
 import { useCookies } from 'react-cookie';
 
 const spin = keyframes`
-  from {
+from {
     transform: rotate(0deg);
-  }
-  to {
+}
+to {
     transform: rotate(360deg);
-  }
+}
 `;
 
 const Main = styled.main`
@@ -22,8 +22,7 @@ const Main = styled.main`
     flex-direction: column;
     justify-content: center;
     height: 100vh;
-    background-image: linear-gradient(to right, #18d777, #39e991);
-
+    background-image: linear-gradient(45deg, #3c3f50, #262833);
     &:before {
         content: '';
         position: absolute;
@@ -31,7 +30,7 @@ const Main = styled.main`
         left: 0;
         right: 0;
         bottom: 0;
-        background-image: url('http://localhost:4001/static/media/LogoBG.c63192f6c16ce7a6366a.png');
+        background-image: url('http://localhost:4001/static/media/LogoNonBG.1b0b5b5e.png');
         background-size: cover;
         filter: blur(10px);
         z-index: -1;
@@ -44,7 +43,7 @@ const Container = styled.div`
     align-items: center;
     justify-content: center;
     width: 80%;
-    max-width: 50vw;
+    max-width: 100vw;
     text-align: center;
 `;
 
@@ -76,14 +75,16 @@ const LoadingIndicator = styled.div`
 
 const Headline = styled.h1`
     font-size: 3rem;
-    color: #3c3f50;
+    color: #ffffff;
     margin-bottom: 2rem;
+    margin-top: 4rem;
 `;
 
 const Description = styled.p`
     font-size: 1.5rem;
     color: #ffffff;
     margin-bottom: 2rem;
+    width: 60%;
 `;
 
 const Image = styled.img`
@@ -131,7 +132,11 @@ const Home = () => {
     return (
         <Main>
             <Container>
-                <Headline>Welcome to GrandFam-Squad!</Headline>
+                <Image src={MyImage} alt='Dance studio' />
+                <Headline>
+                    No matter how old are you, we will never let you forget your
+                    elders
+                </Headline>
                 <Description>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                     Vestibulum ac efficitur lectus. Morbi vel mauris velit.
@@ -139,7 +144,7 @@ const Home = () => {
                     dapibus, massa enim ultricies nulla, vel consectetur diam
                     ipsum sit amet diam.
                 </Description>
-                <Image src={MyImage} alt='Dance studio' />
+
                 <FeatureList>
                     <Feature>
                         <i className='fas fa-check'></i>

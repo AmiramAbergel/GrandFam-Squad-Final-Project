@@ -35,6 +35,7 @@ export const signup = async (req, res, next) => {
     let myGrandparents;
     let scoreTable;
     let familyMemberInfo;
+    let myGrandparentsGroups = [];
     try {
         if (req.body.familyMember) {
             familyMemberInfo = await FamilyMember.create({
@@ -56,6 +57,7 @@ export const signup = async (req, res, next) => {
                     },
                     { new: true }
                 );
+                myGrandparentsGroups.push(myGrandparents._id);
 
                 scoreTable = await WeeklyScoreTable.findByIdAndUpdate(
                     myGrandparents.familyScore,
@@ -69,7 +71,7 @@ export const signup = async (req, res, next) => {
                     { $push: { sharedWith: familyMemberInfo._id } },
                     { new: true }
                 );
-
+                myGrandparentsGroups.push(myGrandparents._id);
                 scoreTable = await WeeklyScoreTable.findByIdAndUpdate(
                     myGrandparents.familyScore,
                     { $push: { rank: familyMemberInfo._id } },
@@ -78,17 +80,6 @@ export const signup = async (req, res, next) => {
             }
         }
 
-        let myGrandparentsGroups = [];
-        if (req.body.familyMember.maternalGrandparents) {
-            myGrandparentsGroups.push(
-                req.body.familyMember.maternalGrandparents
-            );
-        }
-        if (req.body.familyMember.paternalGrandparents) {
-            myGrandparentsGroups.push(
-                req.body.familyMember.paternalGrandparents
-            );
-        }
         const newUser = await User.create({
             name: req.body.name,
             lastName: req.body.lastName,

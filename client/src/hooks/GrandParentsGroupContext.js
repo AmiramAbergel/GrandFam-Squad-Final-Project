@@ -16,14 +16,14 @@ export const useUserGrandParents = () =>
 export function UserGrandParentsGroupProvider({ children }) {
     const { loggedUser, token } = useAuth();
     const [myGrandParents, setMyGrandParents] = useState([]);
-    const [myGrandParentsGroups, setMyGrandParentsGroups] = useState([]);
+    const [myGrandparentsGroups, setMyGrandparentsGroups] = useState([]);
     const [myGroup, setMyGroup] = useState([]);
 
     useEffect(() => {
         const getAllGrandParents = async () => {
             try {
                 const { data } = await clientAPI(
-                    `/users/${loggedUser._id}/grandparents`,
+                    `/users/${loggedUser.familyMember._id}/grandparents`,
                     {
                         method: 'GET',
                         token,
@@ -38,32 +38,34 @@ export function UserGrandParentsGroupProvider({ children }) {
         const getAllGrandParentsGroups = async () => {
             try {
                 const { data } = await clientAPI(
-                    `/users/${loggedUser._id}/grandparents?groups=true`,
+                    `/users/${loggedUser.familyMember._id}/grandparents?groups=true`,
                     {
                         method: 'GET',
                         token,
                     }
                 );
-                setMyGrandParentsGroups(data.data);
+                setMyGrandparentsGroups(data.data);
+                console.log(data.data);
             } catch (err) {
                 throw err;
             }
         };
 
-        if (loggedUser?._id && loggedUser?.myGrandparentsGroups > 0) {
+        if (loggedUser?._id && loggedUser['myGrandparentsGroups'].length > 0) {
+            console.log('loggedUser', loggedUser);
             getAllGrandParents();
             getAllGrandParentsGroups();
         } else {
             setMyGrandParents([]);
-            setMyGrandParentsGroups([]);
+            setMyGrandparentsGroups([]);
         }
-    }, [loggedUser]);
+    }, [loggedUser, token]);
 
     // useEffect(() => {}, []);
 
     const values = {
         myGrandParents,
-        myGrandParentsGroups,
+        myGrandparentsGroups,
         myGroup,
         setMyGroup,
     };

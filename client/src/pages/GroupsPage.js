@@ -34,7 +34,7 @@ const Image = styled.img`
 const GroupsPage = () => {
     const navigate = useNavigate();
     const { loggedUser } = useAuth();
-    const { myGrandParentsGroups, setMyGroup, myGrandParents } =
+    const { myGrandparentsGroups, setMyGroup, myGrandParents } =
         useUserGrandParents();
     console.log(loggedUser);
     const handleGroupClick = async (event) => {
@@ -50,9 +50,9 @@ const GroupsPage = () => {
     };
 
     const handleNewGroup = () => {
-        navigate('/newgroup');
+        navigate('/');
     };
-
+    console.log(myGrandparentsGroups);
     return (
         <>
             <h1>Hey! Please Choose group or create one</h1>
@@ -62,10 +62,10 @@ const GroupsPage = () => {
                     Create New Group
                 </StyledButton>
             </div>
-            {myGrandParentsGroups.length > 0 ? (
+            {myGrandparentsGroups.length > 0 ? (
                 <div>
                     <div>
-                        {myGrandParentsGroups.map((group, i) => {
+                        {myGrandparentsGroups.map((group, i) => {
                             console.log(group.familyID);
                             return (
                                 <StyledButton

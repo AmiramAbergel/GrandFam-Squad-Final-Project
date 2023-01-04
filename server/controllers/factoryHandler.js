@@ -81,6 +81,7 @@ export const getAll = (Model) => async (req, res, next) => {
 
         // Apply filters
         let query = Model.find(filter);
+
         if (req.query.sort) {
             const sortBy = req.query.sort.split(',').join(' ');
             query = query.sort(sortBy);
@@ -100,6 +101,7 @@ export const getAll = (Model) => async (req, res, next) => {
 
         // Execute query
         const doc = await query;
+
         // Send response
         res.status(200).json({
             status: 'success',

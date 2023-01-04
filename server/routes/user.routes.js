@@ -3,9 +3,7 @@ import { restrictTo, updatePassword } from '../controllers/auth.controller.js';
 import { getMeAsFamilyMember } from '../controllers/familyMember.controller.js';
 
 import {
-    getGrandparents,
     createGrandparents,
-    getAllGrandparentsGroups,
     getAllGrandparents,
 } from '../controllers/grandparents.controllers.js';
 import {

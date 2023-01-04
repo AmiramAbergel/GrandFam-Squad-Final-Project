@@ -66,12 +66,7 @@ export const createGrandparents = async (req, res, next) => {
     }
 };
 //export const createGrandparents = createOne(GrandParents);
-export const getAllGrandparentsGroups = async (req, res, next) => {
-    try {
-    } catch (err) {
-        next(err, req, res);
-    }
-};
+
 export const getAllGrandparents = getAll(GrandParents);
 export const getGrandparents = getOne(GrandParents);
 export const deleteGrandparents = deleteOne(GrandParents);

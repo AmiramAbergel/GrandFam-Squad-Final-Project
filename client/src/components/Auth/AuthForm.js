@@ -21,7 +21,6 @@ const AuthFormWrapper = styled.section`
     height: 80vh;
     background-color: #262833;
     border-radius: 500px;
-    border-style: solid;
 `;
 
 const Main = styled.main`
@@ -29,12 +28,11 @@ const Main = styled.main`
     background-color: #ffffff;
     border-radius: 5px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    padding: 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     animation: ${fadeIn} 0.5s ease-in-out;
-    height: 85%;
+    height: 92%;
 `;
 
 const Heading = styled.h2`
@@ -130,7 +128,7 @@ const Button = styled.button`
 
 const Image = styled.img`
     width: 100%;
-    height: 220px;
+    height: 250px;
     object-fit: cover;
     margin-bottom: 2rem;
     border-radius: 5px;
