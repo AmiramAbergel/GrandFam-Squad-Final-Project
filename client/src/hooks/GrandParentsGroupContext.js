@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { clientAPI } from '../api/api.js';
 import { useAuth } from './Auth.js';
-import Cookies from 'js-cookie';
+
 const UserGrandParentsGroupContext = createContext({
     // grandParentsGroup: null,
     // myGroup: null,
@@ -15,9 +15,9 @@ export const useUserGrandParents = () =>
 
 export function UserGrandParentsGroupProvider({ children }) {
     const { loggedUser, token } = useAuth();
-    const [myGrandParents, setMyGrandParents] = useState(null);
-    const [myGrandParentsGroups, setMyGrandParentsGroups] = useState(null);
-    const [myGroup, setMyGroup] = useState(null);
+    const [myGrandParents, setMyGrandParents] = useState([]);
+    const [myGrandParentsGroups, setMyGrandParentsGroups] = useState([]);
+    const [myGroup, setMyGroup] = useState([]);
 
     useEffect(() => {
         const getAllGrandParents = async () => {
@@ -50,12 +50,12 @@ export function UserGrandParentsGroupProvider({ children }) {
             }
         };
 
-        if (loggedUser?._id) {
+        if (loggedUser?._id && loggedUser?.myGrandparentsGroups > 0) {
             getAllGrandParents();
             getAllGrandParentsGroups();
         } else {
-            setMyGrandParents(null);
-            setMyGrandParentsGroups(null);
+            setMyGrandParents([]);
+            setMyGrandParentsGroups([]);
         }
     }, [loggedUser]);
 

@@ -41,7 +41,7 @@ const UserSignForm = (props) => {
                 <Input
                     onChange={props.onChange}
                     className='form__input'
-                    id='confirmPassword'
+                    id='passwordConfirm'
                     type='password'
                     placeholder='••••••••'
                     required='required'
@@ -108,7 +108,7 @@ const UserSignForm = (props) => {
                     onChange={props.onChange}
                     className='form__input'
                     id='phone'
-                    type='tel'
+                    type='text'
                     placeholder='Your phone number'
                     required='required'
                 />

@@ -142,7 +142,7 @@ const AuthForm = () => {
     const [form, setForm] = useState({
         email: '',
         password: '',
-        confirmPassword: '',
+        passwordConfirm: '',
         name: '',
         lastName: '',
         familyMember: {
@@ -154,14 +154,14 @@ const AuthForm = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     const changeHandler = (e) => {
-        console.log(e.target.value);
+        const familyMemberProperties = ['age', 'address', 'phone'];
+        console.log(e.target.id);
         setForm((prev) => ({
             ...prev,
             [e.target.id]: e.target.value,
-
             familyMember: {
                 ...prev.familyMember,
-                ...(e.target.id === ('age' || 'address' || 'phone') && {
+                ...(familyMemberProperties.includes(e.target.id) && {
                     [e.target.id]: e.target.value,
                 }),
             },
@@ -176,7 +176,7 @@ const AuthForm = () => {
                 await signUp(
                     form.email,
                     form.password,
-                    form.confirmPassword,
+                    form.passwordConfirm,
                     form.name,
                     form.lastName,
                     form.familyMember

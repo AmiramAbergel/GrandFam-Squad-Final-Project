@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { useUserGrandParents } from '../hooks/GrandParentsGroupContext.js';
 import styled from '@emotion/styled';
+import { useAuth } from '../hooks/Auth.js';
+
 const REDIRECT_PAGE = '/score';
 
 const StyledButton = styled.button`
@@ -21,11 +23,20 @@ const StyledButton = styled.button`
     border-radius: 4px;
 `;
 
+const Image = styled.img`
+    width: 500px;
+    height: 320px;
+    object-fit: contain;
+    margin-bottom: 2rem;
+    border-radius: 5px;
+`;
+
 const GroupsPage = () => {
     const navigate = useNavigate();
+    const { loggedUser } = useAuth();
     const { myGrandParentsGroups, setMyGroup, myGrandParents } =
         useUserGrandParents();
-
+    console.log(loggedUser);
     const handleGroupClick = async (event) => {
         const groupID = event.target.value;
         let FilteredGroup = {};
@@ -38,29 +49,40 @@ const GroupsPage = () => {
         navigate(REDIRECT_PAGE);
     };
 
+    const handleNewGroup = () => {
+        navigate('/newgroup');
+    };
+
     return (
-        myGrandParentsGroups && (
+        <>
+            <h1>Hey! Please Choose group or create one</h1>
+            <Image src={'https://thispersondoesnotexist.com/image '}></Image>
             <div>
-                <h1>Hey! Please Choose group or create one</h1>
-                <div>
-                    {myGrandParentsGroups.map((group, i) => {
-                        console.log(group.familyID);
-                        return (
-                            <StyledButton
-                                key={i}
-                                value={group.familyID}
-                                onClick={handleGroupClick}
-                            >
-                                {group.familyName}
-                            </StyledButton>
-                        );
-                    })}
-                </div>
-                <div>
-                    <StyledButton>Create New Group</StyledButton>
-                </div>
+                <StyledButton onClick={handleNewGroup}>
+                    Create New Group
+                </StyledButton>
             </div>
-        )
+            {myGrandParentsGroups.length > 0 ? (
+                <div>
+                    <div>
+                        {myGrandParentsGroups.map((group, i) => {
+                            console.log(group.familyID);
+                            return (
+                                <StyledButton
+                                    key={i}
+                                    value={group.familyID}
+                                    onClick={handleGroupClick}
+                                >
+                                    {group.familyName}
+                                </StyledButton>
+                            );
+                        })}
+                    </div>
+                </div>
+            ) : (
+                ''
+            )}
+        </>
     );
 };
 export default GroupsPage;

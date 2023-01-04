@@ -58,7 +58,7 @@ export function AuthUserProvider({ children }) {
     async function signUp(
         email,
         password,
-        confirmPassword,
+        passwordConfirm,
         name,
         lastName,
         familyMember
@@ -67,7 +67,7 @@ export function AuthUserProvider({ children }) {
             console.log({
                 email,
                 password,
-                confirmPassword,
+                passwordConfirm,
                 name,
                 lastName,
                 familyMember,
@@ -77,13 +77,14 @@ export function AuthUserProvider({ children }) {
                 data: {
                     email,
                     password,
-                    confirmPassword,
+                    passwordConfirm,
                     name,
                     lastName,
                     familyMember,
                 },
             });
-            setLoggedUser(data);
+            console.log(data);
+            setLoggedUser(data.user);
             navigate(REDIRECT_PAGE);
             return data;
         } catch (err) {
@@ -100,6 +101,7 @@ export function AuthUserProvider({ children }) {
             });
 
             setCookie('token', data.token); // store the token in a cookie
+            console.log(data.user);
             setToken(data.token);
             setLoggedUser(data.user);
             navigate(REDIRECT_PAGE);

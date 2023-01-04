@@ -46,21 +46,16 @@ familyMemberSchema.pre(/^find/, function (next) {
     next();
 });
 
-familyMemberSchema.pre('validate', function (next) {
-    if (this.maternalGrandparents || this.paternalGrandparents) {
-        next();
-    } else {
-        next(
-            new Error(
-                'Either maternalGrandparents or paternalGrandparents are required'
-            )
-        );
-    }
-});
-
-// .path('paternalGrandparents')
-// .validate(function (paternalGrandparents) {
-//     return this.maternalGrandparents || paternalGrandparents;
-// }, 'Either maternalGrandparents or paternalGrandparents are required');
+// familyMemberSchema.pre('validate', function (next) {
+//     if (this.maternalGrandparents || this.paternalGrandparents) {
+//         next();
+//     } else {
+//         next(
+//             new Error(
+//                 'Either maternalGrandparents or paternalGrandparents are required'
+//             )
+//         );
+//     }
+// });
 
 export const FamilyMember = mongoose.model('FamilyMember', familyMemberSchema);

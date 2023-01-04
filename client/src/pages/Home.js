@@ -29,7 +29,7 @@ const Main = styled.main`
         left: 0;
         right: 0;
         bottom: 0;
-        background-image: url('../assets/LogoBG.png');
+        background-image: url('http://localhost:4001/static/media/LogoBG.c63192f6c16ce7a6366a.png');
         background-size: cover;
         filter: blur(10px);
         z-index: -1;

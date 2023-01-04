@@ -37,7 +37,7 @@ const userSchema = new Schema({
     },
     photo: {
         type: String,
-        default: 'https://picsum.photos/200', // generates a random image from the Picsum API
+        default: 'https://thispersondoesnotexist.com/image', // generates a random image from the API
     },
     role: {
         // this field will be used to check if the user is an admin or a regular user
