@@ -36,6 +36,7 @@ const Map = ({ center, zoom }) => {
         return (
             <LocationMarker
                 key={i}
+                idx={i}
                 name={name}
                 lat={lat}
                 lng={lng}

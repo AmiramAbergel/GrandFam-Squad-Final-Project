@@ -22,11 +22,10 @@ const StyledLocationMarker = styled.div`
         }
     }
 `;
-const LocationMarker = ({ key, lat, lng, name, onClick }) => {
-    console.log('test');
+const LocationMarker = ({ idx, lat, lng, name, onClick }) => {
     return (
         <StyledLocationMarker onClick={onClick}>
-            {name === 'MC' ? (
+            {idx === 0 ? (
                 <Icon
                     icon='emojione:old-woman-medium-skin-tone'
                     width='75'
