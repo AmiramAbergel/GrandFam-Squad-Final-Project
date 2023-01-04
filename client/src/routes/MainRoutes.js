@@ -23,7 +23,7 @@ const MainRoutes = (props) => {
         if (!token) {
             navigate(REDIRECT_PAGE);
         }
-    }, [token]);
+    }, []);
     console.log('render');
     return !token || !isAuthenticated || !scoreTable ? (
         '!!!Loading...'

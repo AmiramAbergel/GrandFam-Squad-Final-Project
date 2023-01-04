@@ -55,11 +55,33 @@ export function AuthUserProvider({ children }) {
         throw error;
     };
 
-    async function signUp(email, password) {
+    async function signUp(
+        email,
+        password,
+        confirmPassword,
+        name,
+        lastName,
+        familyMember
+    ) {
         try {
+            console.log({
+                email,
+                password,
+                confirmPassword,
+                name,
+                lastName,
+                familyMember,
+            });
             const { data } = await clientAPI(signUpUrl, {
                 method: 'POST',
-                data: { email, password },
+                data: {
+                    email,
+                    password,
+                    confirmPassword,
+                    name,
+                    lastName,
+                    familyMember,
+                },
             });
             setLoggedUser(data);
             navigate(REDIRECT_PAGE);

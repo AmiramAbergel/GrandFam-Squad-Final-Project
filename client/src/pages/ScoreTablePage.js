@@ -52,8 +52,8 @@ const ScoreTablePage = (props) => {
                 </tr>
             </thead>
             <tbody>
-                {Object.values(data).map((item) => (
-                    <tr key={item._id}>
+                {Object.values(data).map((item, i) => (
+                    <tr key={i}>
                         <td>{item.familyID}</td>
                         <td>{item.familyName}</td>
                         <td>{item.week ? item.week.join(', ') : '-'}</td>
