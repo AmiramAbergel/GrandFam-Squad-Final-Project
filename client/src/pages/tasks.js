@@ -1,12 +1,12 @@
 export default [
     {
         description: 'Pick up groceries',
-        assignedTo: 'John',
+        assignedTo: 'Amiram',
         dueDate: '2022-12-24',
     },
     {
         description: 'Take out the trash',
-        assignedTo: 'Jane',
+        assignedTo: 'Sami',
         dueDate: '2022-12-25',
     },
     {
@@ -16,12 +16,12 @@ export default [
     },
     {
         description: 'Mow the lawn',
-        assignedTo: 'John',
+        assignedTo: 'Ben',
         dueDate: '2022-12-24',
     },
     {
         description: 'Wash the car',
-        assignedTo: 'Jane',
+        assignedTo: 'Yulia',
         dueDate: '2022-12-25',
     },
     {

@@ -23,8 +23,9 @@ export function GroupScoreTableProvider({ children }) {
                     method: 'GET',
                     token,
                 });
+                console.log(data);
                 setScoreTable(data.data);
-                console.log(data.data);
+                setUsersInGroup(data.members);
             } catch (err) {
                 throw err;
             }
@@ -39,6 +40,7 @@ export function GroupScoreTableProvider({ children }) {
 
     const values = {
         scoreTable,
+        usersInGroup,
     };
 
     return (

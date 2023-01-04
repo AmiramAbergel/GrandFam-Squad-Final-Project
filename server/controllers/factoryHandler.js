@@ -1,3 +1,4 @@
+import { User } from '../models/userAuth.model.js';
 import AppError from '../utils/appError.js';
 
 export const deleteOne = (Model) => async (req, res, next) => {
@@ -54,6 +55,21 @@ export const getOne = (Model, popOptions) => async (req, res, next) => {
         let query = Model.findById(req.params.id);
         if (popOptions) query = query.populate(popOptions);
         const doc = await query;
+
+        const userInGroup = doc.rank;
+        let filter = {};
+        if (req.params) {
+            filter = {
+                userInGroup,
+            };
+        }
+        //getting all users in the group
+        // Apply filters
+        let secQuery = User.find(filter);
+
+        // Execute query
+        const secDoc = await secQuery;
+
         if (!doc) {
             return next(AppError('No document found with that ID', 404));
         }
@@ -61,6 +77,7 @@ export const getOne = (Model, popOptions) => async (req, res, next) => {
             status: 'success',
             data: {
                 data: doc,
+                members: secDoc,
             },
         });
     } catch (err) {

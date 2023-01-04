@@ -1,12 +1,22 @@
 import React from 'react';
 import styled from '@emotion/styled';
 
+const TableWrapper = styled.div`
+    width: 80%;
+    margin: 0 auto;
+`;
+
 const Table = styled.table`
     border-collapse: collapse;
     width: 100%;
     margin-top: 20px;
+
+    font-size: 1.3rem;
     tr {
         &:nth-of-type(odd) {
+            background-color: #f5f5f5;
+        }
+        &:nth-of-type(even) {
             background-color: #f5f5f5;
         }
         &:hover {
@@ -37,31 +47,34 @@ const Table = styled.table`
 `;
 
 const ScoreTablePage = (props) => {
-    const { data } = props;
-    console.log(data);
-    return data?.length === 0 || !data ? (
+    const { scoreData, usersData } = props;
+
+    return scoreData?.length === 0 || !scoreData ? (
         'Loading...'
     ) : (
-        <Table>
-            <thead>
-                <tr>
-                    <th>Family ID</th>
-                    <th>Family Name</th>
-                    <th>Week</th>
-                    <th>Rank</th>
-                </tr>
-            </thead>
-            <tbody>
-                {Object.values(data).map((item, i) => (
-                    <tr key={i}>
-                        <td>{item.familyID}</td>
-                        <td>{item.familyName}</td>
-                        <td>{item.week ? item.week.join(', ') : '-'}</td>
-                        {/* <td>{item.rank ? item.rank[0] : '-'}</td> */}
+        <TableWrapper>
+            <Table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Last Name</th>
+                        <th>Week</th>
+                        <th>Rank</th>
                     </tr>
-                ))}
-            </tbody>
-        </Table>
+                </thead>
+                <tbody>
+                    {usersData.map((item, i) => (
+                        <tr key={i}>
+                            <td>{item.name}</td>
+                            <td>{item.lastName}</td>
+                            <td>{scoreData.week.join(' , ')}</td>
+                            <td>0</td>
+                            {/* <td>{item.rank ? item.rank[0] : '-'}</td> */}
+                        </tr>
+                    ))}
+                </tbody>
+            </Table>
+        </TableWrapper>
     );
 };
 

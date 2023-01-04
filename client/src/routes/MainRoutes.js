@@ -9,11 +9,12 @@ import GrandparentsMapView from '../pages/GrandparentsMapView.js';
 import DndCalendar from '../pages/Schedule.js';
 
 import ScoreTablePage from '../pages/ScoreTablePage.js';
+import TaskList from '../pages/TaskPage.js';
 const REDIRECT_PAGE = '/';
 
 const MainRoutes = (props) => {
     const { myGroup } = useUserGrandParents();
-    const { scoreTable } = useGroupScoreTable();
+    const { scoreTable, usersInGroup } = useGroupScoreTable();
     const navigate = useNavigate();
     const { isAuthenticated, token } = useAuth();
 
@@ -36,7 +37,10 @@ const MainRoutes = (props) => {
                         !isAuthenticated || !scoreTable ? (
                             '!!!Loading...'
                         ) : (
-                            <ScoreTablePage data={scoreTable} />
+                            <ScoreTablePage
+                                scoreData={scoreTable}
+                                usersData={usersInGroup}
+                            />
                         )
                     }
                 />
@@ -57,6 +61,16 @@ const MainRoutes = (props) => {
                             '!!!!Loading...'
                         ) : (
                             <DndCalendar />
+                        )
+                    }
+                />
+                <Route
+                    path='/assistance'
+                    element={
+                        !isAuthenticated || !myGroup ? (
+                            '!!!!Loading...'
+                        ) : (
+                            <TaskList />
                         )
                     }
                 />
