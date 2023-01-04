@@ -5,9 +5,23 @@ import LocationMarker from './MapDetails/LocationMarker.js';
 import styled from '@emotion/styled';
 import { useUserGrandParents } from '../../hooks/GrandParentsGroupContext.js';
 const StyledMap = styled.div`
+    /* Center the map on the page */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* Set dimensions of the map */
     width: calc(100% - 100px);
     height: 65vh;
-    position: relative;
+    /* Add background color and border */
+    background-color: white;
+    border: 1px solid lightgrey;
+    /* Add shadow */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    /* Add rounded corners */
+    border-radius: 5px;
+    /* Add animation */
+    animation: fadeIn 3s ease-in-out;
 `;
 
 const Map = ({ center, zoom }) => {

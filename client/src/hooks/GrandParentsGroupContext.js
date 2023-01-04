@@ -14,12 +14,10 @@ export const useUserGrandParents = () =>
     useContext(UserGrandParentsGroupContext);
 
 export function UserGrandParentsGroupProvider({ children }) {
-    const { loggedUser, isAuthenticated } = useAuth();
+    const { loggedUser, token } = useAuth();
     const [myGrandParents, setMyGrandParents] = useState(null);
     const [myGrandParentsGroups, setMyGrandParentsGroups] = useState(null);
     const [myGroup, setMyGroup] = useState(null);
-
-    const token = Cookies.get('token');
 
     useEffect(() => {
         const getAllGrandParents = async () => {
@@ -59,7 +57,7 @@ export function UserGrandParentsGroupProvider({ children }) {
             setMyGrandParents(null);
             setMyGrandParentsGroups(null);
         }
-    }, [loggedUser, token, myGroup]);
+    }, [loggedUser]);
 
     // useEffect(() => {}, []);
 

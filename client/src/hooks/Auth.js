@@ -1,12 +1,11 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { clientAPI } from '../api/api.js';
 import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
+import { useCookies } from 'react-cookie';
 const signUpUrl = '/signup';
 const loginUrl = '/login';
 const logoutUrl = '/logout';
 const loggedUserUrl = '/users/me';
-
 const REDIRECT_PAGE = '/my-groups';
 const HOME_PAGE = '/';
 const AuthUserContext = createContext({
@@ -14,6 +13,7 @@ const AuthUserContext = createContext({
     isAuthenticated: false,
     loggedUser: null,
     error: null,
+    isLoading: true,
     signUp: () => {},
     login: () => {},
     logout: () => {},
@@ -26,25 +26,27 @@ export function AuthUserProvider({ children }) {
     const [loggedUser, setLoggedUser] = useState(null);
     const [token, setToken] = useState(null);
     const [error, setError] = useState(null);
+    const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const navigate = useNavigate();
 
     useEffect(() => {
-        const token = Cookies.get('token');
-        if (token) {
-            (async () => {
-                try {
-                    const { data } = await clientAPI(loggedUserUrl, {
-                        method: 'GET',
-                        token,
-                    });
-                    setLoggedUser(data.data);
-                    setToken(token);
-                } catch (err) {
-                    setError(err);
-                } finally {
-                    setIsLoading(false);
-                }
-            })();
+        const getUser = async (tk) => {
+            try {
+                const { data } = await clientAPI(loggedUserUrl, {
+                    method: 'GET',
+                    tk,
+                });
+                setLoggedUser(data.data);
+            } catch (err) {
+                setError(err);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        if (cookies.token) {
+            setToken(cookies.token);
+            getUser(cookies.token);
         }
     }, []);
 
@@ -75,7 +77,8 @@ export function AuthUserProvider({ children }) {
                 headers: { 'Content-Type': 'application/json' },
             });
 
-            Cookies.set('token', data.token); // store the token in a cookie
+            setCookie('token', data.token); // store the token in a cookie
+            setToken(data.token);
             setLoggedUser(data.user);
             navigate(REDIRECT_PAGE);
             return data;
@@ -92,7 +95,7 @@ export function AuthUserProvider({ children }) {
             });
             setLoggedUser(null);
             setIsLoading(true);
-            Cookies.remove('token'); // remove the token cookie
+            removeCookie('token'); // remove the token cookie
             if (res.status === 'success') {
                 navigate(HOME_PAGE);
             }

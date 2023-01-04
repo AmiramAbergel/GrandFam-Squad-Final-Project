@@ -15,37 +15,35 @@ const MainRoutes = (props) => {
     const { myGroup } = useUserGrandParents();
     const { scoreTable } = useGroupScoreTable();
     const navigate = useNavigate();
-    const { isAuthenticated } = useAuth();
-    const [loading, setLoading] = useState(true);
-    const [token, setToken] = useState(null);
+    const { isAuthenticated, token } = useAuth();
+
     // Listen for changes to loading and authUser, redirect if needed
 
     useEffect(() => {
-        const cToken = Cookies.get('token');
-        setToken(cToken);
-        setLoading(!myGroup || !scoreTable);
-        if (!cToken) {
+        if (!token) {
             navigate(REDIRECT_PAGE);
         }
-    }, [token, myGroup]);
+    }, [token]);
     console.log('render');
-    return (
+    return !token || !isAuthenticated || !scoreTable ? (
+        '!!!Loading...'
+    ) : (
         <Layout>
             <Routes>
                 <Route
                     path='/score'
                     element={
-                        !isAuthenticated || !loading ? (
+                        !isAuthenticated || !scoreTable ? (
                             '!!!Loading...'
                         ) : (
-                            <ScoreTablePage />
+                            <ScoreTablePage data={scoreTable} />
                         )
                     }
                 />
                 <Route
                     path='/map'
                     element={
-                        !isAuthenticated || !loading ? (
+                        !isAuthenticated || !myGroup ? (
                             '!!!!Loading...'
                         ) : (
                             <GrandparentsMapView />
@@ -55,7 +53,7 @@ const MainRoutes = (props) => {
                 <Route
                     path='/schedule'
                     element={
-                        !isAuthenticated || !loading ? (
+                        !isAuthenticated || !myGroup ? (
                             '!!!!Loading...'
                         ) : (
                             <DndCalendar />

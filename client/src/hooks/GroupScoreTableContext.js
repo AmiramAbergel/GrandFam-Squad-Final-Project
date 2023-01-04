@@ -11,27 +11,25 @@ const groupScoreTableContext = createContext({
 export const useGroupScoreTable = () => useContext(groupScoreTableContext);
 
 export function GroupScoreTableProvider({ children }) {
-    const { loggedUser, isAuthenticated } = useAuth();
+    const { loggedUser, token } = useAuth();
     const { myGroup } = useUserGrandParents();
-    const [scoreTableID, setScoreTableID] = useState(null);
     const [scoreTable, setScoreTable] = useState(null);
 
-    const token = Cookies.get('token');
-    const getScoreTable = async (id) => {
-        try {
-            const { data } = await clientAPI(`/score/${id}`, {
-                method: 'GET',
-                token,
-            });
-            setScoreTable(data.data);
-        } catch (err) {
-            throw err;
-        }
-    };
-
     useEffect(() => {
-        if (myGroup && loggedUser?._id) {
-            setScoreTableID(myGroup.familyScore);
+        const getScoreTable = async (fid) => {
+            try {
+                const { data } = await clientAPI(`/score/${fid}`, {
+                    method: 'GET',
+                    token,
+                });
+                setScoreTable(data.data);
+                console.log(data.data);
+            } catch (err) {
+                throw err;
+            }
+        };
+
+        if (myGroup && loggedUser) {
             getScoreTable(myGroup.familyScore);
         } else {
             setScoreTable(null);
