@@ -1,10 +1,10 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { clientAPI } from '../api/api.js';
 import { useAuth } from './Auth.js';
-import Cookies from 'js-cookie';
 import { useUserGrandParents } from './GrandParentsGroupContext.js';
 const groupScoreTableContext = createContext({
     scoreTable: null,
+    usersInGroup: null,
     getScoreTable: () => {},
 });
 
@@ -14,6 +14,7 @@ export function GroupScoreTableProvider({ children }) {
     const { loggedUser, token } = useAuth();
     const { myGroup } = useUserGrandParents();
     const [scoreTable, setScoreTable] = useState(null);
+    const [usersInGroup, setUsersInGroup] = useState(null);
 
     useEffect(() => {
         const getScoreTable = async (fid) => {

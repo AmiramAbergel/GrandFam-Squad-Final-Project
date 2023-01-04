@@ -42,6 +42,7 @@ export default function DndCalendar() {
 
     function resizeEvent(resizeType, { event, start, end }) {
         const { events } = state;
+
         const nextEvents = events.map((existingEvent) => {
             return existingEvent.id === event.id
                 ? { ...existingEvent, start, end }
@@ -55,6 +56,7 @@ export default function DndCalendar() {
     return (
         <StyledCalender>
             <DragAndDropCalendar
+                draggableAccessor='isDraggable'
                 className='calendar'
                 selectable
                 localizer={localizer}
@@ -63,8 +65,13 @@ export default function DndCalendar() {
                 resizable
                 onEventResize={resizeEvent}
                 defaultView='month'
-                defaultDate={new Date(2023, 3, 12)}
+                defaultDate={new Date(2023, 0, 25)}
                 style={{ height: '80vh' }}
+                popup={true}
+                eventPropGetter={(event) => {
+                    const backgroundColor = event.assignedTo ? 'red' : 'blue';
+                    return { style: { backgroundColor } };
+                }}
             />
         </StyledCalender>
     );

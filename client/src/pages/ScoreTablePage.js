@@ -38,7 +38,7 @@ const Table = styled.table`
 
 const ScoreTablePage = (props) => {
     const { data } = props;
-
+    console.log(data);
     return data?.length === 0 || !data ? (
         'Loading...'
     ) : (
