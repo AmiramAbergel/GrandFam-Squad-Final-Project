@@ -78,12 +78,25 @@ export const signup = async (req, res, next) => {
             }
         }
 
+        let myGrandparentsGroups = [];
+        if (req.body.familyMember.maternalGrandparents) {
+            myGrandparentsGroups.push(
+                req.body.familyMember.maternalGrandparents
+            );
+        }
+        if (req.body.familyMember.paternalGrandparents) {
+            myGrandparentsGroups.push(
+                req.body.familyMember.paternalGrandparents
+            );
+        }
         const newUser = await User.create({
             name: req.body.name,
             lastName: req.body.lastName,
             email: req.body.email,
             password: req.body.password,
             passwordConfirm: req.body.passwordConfirm,
+            myGrandparentsGroups: myGrandparentsGroups,
+            role: req.body.role,
             ...(req.body.familyMember
                 ? { familyMember: familyMemberInfo._id }
                 : {}),

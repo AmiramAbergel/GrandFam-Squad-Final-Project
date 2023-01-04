@@ -4,13 +4,13 @@ const { Schema } = mongoose;
 import { v4 as uuidv4 } from 'uuid';
 export const grandParentsSchema = new Schema({
     grandma: {
-        name: { type: String, required: true },
-        age: { type: Number, required: true },
+        name: { type: String },
+        age: { type: Number },
     },
     spouse: {
-        name: { type: String, required: true },
-        age: { type: Number, required: true },
-        relationship: { type: String, required: true },
+        name: { type: String },
+        age: { type: Number },
+        relationship: { type: String },
     },
     familyName: { type: String, required: true },
     familyID: { type: String, default: uuidv4() },

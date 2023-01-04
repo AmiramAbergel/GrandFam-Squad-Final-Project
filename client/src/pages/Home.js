@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Modal from '../components/UI/Modal/Modal.js';
 import AuthForm from '../components/Auth/AuthForm.js';
 import styled from '@emotion/styled';
 import { keyframes } from '@emotion/react';
 import MyImage from '../assets/LogoBG.png';
+import { useCookies } from 'react-cookie';
+
 const spin = keyframes`
   from {
     transform: rotate(0deg);
@@ -121,7 +123,11 @@ const Feature = styled.li`
 `;
 
 const Home = () => {
+    const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const [isLoading, setIsLoading] = useState(false);
+    useEffect(() => {
+        removeCookie('token');
+    }, []);
     return (
         <Main>
             <Container>
