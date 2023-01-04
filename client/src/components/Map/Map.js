@@ -11,7 +11,7 @@ const StyledMap = styled.div`
     left: 50%;
     transform: translate(-50%, -50%);
     /* Set dimensions of the map */
-    width: calc(100% - 100px);
+    width: calc(100% - 600px);
     height: 65vh;
     /* Add background color and border */
     background-color: white;
@@ -22,6 +22,10 @@ const StyledMap = styled.div`
     border-radius: 5px;
     /* Add animation */
     animation: fadeIn 3s ease-in-out;
+    @media (max-width: 768px) {
+        width: calc(100% - 50px);
+        height: 75vh;
+    }
 `;
 
 const Map = ({ center, zoom }) => {

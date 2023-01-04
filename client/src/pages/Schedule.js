@@ -1,15 +1,28 @@
 import React, { useState } from 'react';
-import { useEffect } from 'react';
-import ReactDOM from 'react-dom';
 import events from './events';
-import HTML5Backend from 'react-dnd-html5-backend';
-import { DragDropContext } from 'react-dnd';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 import moment from 'moment';
-
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
+import styled from '@emotion/styled';
+const StyledCalender = styled.div`
+    /* Center the map on the page */
+    /* position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    Set dimensions of the map */
+
+    width: calc(100% - 100px);
+    margin-left: 20px;
+    height: 95vh;
+    animation: fadeIn 3s ease-in-out;
+    @media (max-width: 768px) {
+        width: calc(100% - 50px);
+        height: 75vh;
+    }
+`;
 
 const localizer = momentLocalizer(moment);
 const DragAndDropCalendar = withDragAndDrop(Calendar);
@@ -40,17 +53,19 @@ export default function DndCalendar() {
     }
 
     return (
-        <DragAndDropCalendar
-            className='calendar'
-            selectable
-            localizer={localizer}
-            events={state.events}
-            onEventDrop={moveEvent}
-            resizable
-            onEventResize={resizeEvent}
-            defaultView='month'
-            defaultDate={new Date(2015, 3, 12)}
-            style={{ height: '80vh' }}
-        />
+        <StyledCalender>
+            <DragAndDropCalendar
+                className='calendar'
+                selectable
+                localizer={localizer}
+                events={state.events}
+                onEventDrop={moveEvent}
+                resizable
+                onEventResize={resizeEvent}
+                defaultView='month'
+                defaultDate={new Date(2023, 3, 12)}
+                style={{ height: '80vh' }}
+            />
+        </StyledCalender>
     );
 }
