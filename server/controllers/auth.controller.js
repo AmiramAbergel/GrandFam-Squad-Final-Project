@@ -3,9 +3,9 @@ import dotenv from 'dotenv';
 dotenv.config(); // Load ENV Variables
 import jwt from 'jsonwebtoken';
 import AppError from '../utils/appError.js';
-import crypto from 'crypto';
+import crypto from 'crypto'; // This is used to generate the random token in the forgotPassword function
 import url from 'url'; // This is used to parse the url in the forgotPassword function
-import Email from '../utils/emailHandler.js';
+import Email from '../utils/emailHandler.js'; // This is used to send the email in the forgotPassword function
 import { FamilyMember } from '../models/familyMember.model.js';
 import { GrandParents } from '../models/grandParents.model.js';
 import { WeeklyScoreTable } from '../models/weeklyScoreTable.model.js';
