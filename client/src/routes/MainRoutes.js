@@ -1,5 +1,4 @@
-import Cookies from 'js-cookie';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import Layout from '../components/UI/Layout/Layout.js';
 import { useAuth } from '../hooks/Auth.js';
@@ -12,7 +11,7 @@ import ScoreTablePage from '../pages/ScoreTablePage.js';
 import TaskList from '../pages/TaskPage.js';
 const REDIRECT_PAGE = '/';
 
-const MainRoutes = (props) => {
+const MainRoutes = () => {
     const { myGroup } = useUserGrandParents();
     const { scoreTable, usersInGroup } = useGroupScoreTable();
     const navigate = useNavigate();
