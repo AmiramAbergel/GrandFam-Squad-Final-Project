@@ -26,11 +26,11 @@ In summary, the GrandFam Squad Final Project is an excellent tool for families w
 
 #  Main Technologies:
 
-<p align="center">
+[![Built with Emotion](https://img.shields.io/badge/built%20with-emotion-db7093.svg?style=flat-square)](https://emotion.sh/)&nbsp;
 
+<p align="center">
 ![ScreenShot](https://www.vectorlogo.zone/logos/reactjs/reactjs-icon.svg)
 ![ScreenShot](https://www.vectorlogo.zone/logos/sendgrid/sendgrid-ar21.svg)
-![image.png](https://raw.githubusercontent.com/emotion-js/emotion/main/emotion.png**=600x400**)
 ![ScreenShot](https://www.vectorlogo.zone/logos/nodejs/nodejs-icon.svg)
 ![ScreenShot](https://www.vectorlogo.zone/logos/expressjs/expressjs-ar21.svg)
 ![ScreenShot](https://www.vectorlogo.zone/logos/mongodb/mongodb-ar21.svg)
