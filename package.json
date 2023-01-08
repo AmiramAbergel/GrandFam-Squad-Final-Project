@@ -7,7 +7,7 @@
     "scripts": {
         "start": "node server/app.js",
         "install-server": "cd ./server && npm install",
-        "install-client": "cd ./client && npm install",
+        "install-client": "cd ./client && npm install --legacy-peer-deps",
         "client": "cd ./client && npm start",
         "server": "cd ./server && npm start",
         "dev": "concurrently \"npm run server\" \"npm run client\"",
