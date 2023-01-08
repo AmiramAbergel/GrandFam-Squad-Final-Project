@@ -13,7 +13,7 @@ In summary, the GrandFam Squad Final Project is an excellent tool for families w
 
 
 
-```sh
+```
 1.  Clone the repository.
 2.  Setup the database on `server/db/mongoose.js` (there's an example file there to be used with MongoDB).
 3.  Install the dependencies with `npm`.
@@ -25,7 +25,7 @@ In summary, the GrandFam Squad Final Project is an excellent tool for families w
 
 
 #  Main Technologies:
----
+
 <p align="center">
 
 ![ScreenShot](https://www.vectorlogo.zone/logos/reactjs/reactjs-icon.svg)
