@@ -1,70 +1,39 @@
-# Getting Started with Create React App
+# GrandFam-Squad
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+GrandFam Squad Final Project helps users keep in touch with their grandparents and assist them with weekly tasks through a web-based application. Node.js, Express, and MongoDB are used on the server side, while React is used on the client side.
 
-## Available Scripts
+Family groups can be created or joined, and users can communicate with grandparents and coordinate tasks using the application. In addition to task management and scheduling, the application provides other features to assist grandparents in staying organized and managing their responsibilities.
 
-In the project directory, you can run:
+In summary, the GrandFam Squad Final Project is an excellent tool for families who wish to remain connected with their grandparents and assist them with household tasks.
 
-### `npm start`
+### No matter how old are you, we will never let you forget your elders.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Installation
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```
+1.  Clone the repository.
+2.  Setup the database on `server/db/mongoose.js` (there's an example file there to be used with MongoDB).
+3.  Install the dependencies with `npm`.
+4.  Run the application in development mode with `npm run dev`
+5.  Access http://localhost:4001/home and you're ready to go!
 
-### `npm test`
+* In order to check server access  `http://localhost:4000/api/v1`
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# Main Technologies:
 
-### `npm run build`
+[![Built with Emotion](https://img.shields.io/badge/built%20with-emotion-db7093.svg?style=flat-square)](https://emotion.sh/)&nbsp;
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<p align="center">
+  
+![ScreenShot](https://www.vectorlogo.zone/logos/reactjs/reactjs-icon.svg)
+![ScreenShot](https://www.vectorlogo.zone/logos/sendgrid/sendgrid-ar21.svg)
+![ScreenShot](https://www.vectorlogo.zone/logos/nodejs/nodejs-icon.svg)
+![ScreenShot](https://www.vectorlogo.zone/logos/expressjs/expressjs-ar21.svg)
+![ScreenShot](https://www.vectorlogo.zone/logos/mongodb/mongodb-ar21.svg)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+</p>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### End

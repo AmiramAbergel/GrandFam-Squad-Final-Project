@@ -48,9 +48,9 @@ function App() {
                         }
                     />
                 </Routes>
-                <button onClick={registerAndSubscribe}>
+                {/* <button onClick={registerAndSubscribe}>
                     subscribe for push notifications
-                </button>
+                </button> */}
             </AuthUserProvider>
         </div>
     );

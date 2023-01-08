@@ -5,7 +5,7 @@
     "type": "module",
     "main": "server/app.js",
     "scripts": {
-        "start": "node server/app.js",
+        "start": "nodemon server/app.js",
         "install-server": "cd ./server && npm install",
         "install-client": "cd ./client && npm install --legacy-peer-deps",
         "client": "cd ./client && npm start",
