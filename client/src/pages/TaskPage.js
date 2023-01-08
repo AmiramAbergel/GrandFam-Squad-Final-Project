@@ -153,9 +153,9 @@ const TaskList = () => {
                                         onChange={handleCurrentUserChange}
                                     >
                                         <option value=''>Select User</option>
-                                        <option value='John'>John</option>
-                                        <option value='Jane'>Jane</option>
-                                        <option value='Bob'>Bob</option>
+                                        <option value='Amiram'>Amiram</option>
+                                        <option value='Sami'>Sami</option>
+                                        <option value='Ben'>Ben</option>
                                     </Select>
                                 )}
                                 {currentUser && !task.assignedTo ? (

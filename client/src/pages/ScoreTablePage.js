@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-
+import moment from 'moment';
 const TableWrapper = styled.div`
     width: 80%;
     margin: 0 auto;
@@ -29,12 +29,14 @@ const Table = styled.table`
         td {
             padding: 10px;
             border: 1px solid #ccc;
+            font-size: 18px;
             &:first-of-type {
                 width: 15%;
             }
             &:last-of-type {
                 width: 15%;
             }
+            font-weight: bold;
         }
         th {
             text-align: left;
@@ -48,6 +50,18 @@ const Table = styled.table`
 
 const ScoreTablePage = (props) => {
     const { scoreData, usersData } = props;
+    console.log(scoreData);
+    console.log(moment(scoreData.week[0]).format('MMM Do YY'));
+
+    const foramtWeek = (week) => {
+        const newWeek = [];
+        week.map((day) => {
+            newWeek.push(moment(day).format('MMM Do YY'));
+            return newWeek;
+        });
+        const resWeek = [newWeek[0], newWeek[newWeek.length - 1]];
+        return resWeek;
+    };
 
     return scoreData?.length === 0 || !scoreData ? (
         'Loading...'
@@ -58,7 +72,7 @@ const ScoreTablePage = (props) => {
                     <tr>
                         <th>Name</th>
                         <th>Last Name</th>
-                        <th>Week</th>
+                        <th>📅 Week</th>
                         <th>Rank</th>
                     </tr>
                 </thead>
@@ -67,7 +81,7 @@ const ScoreTablePage = (props) => {
                         <tr key={i}>
                             <td>{item.name}</td>
                             <td>{item.lastName}</td>
-                            <td>{scoreData.week.join(' , ')}</td>
+                            <td>{foramtWeek(scoreData.week).join(' ➡️ ')}</td>
                             <td>0</td>
                             {/* <td>{item.rank ? item.rank[0] : '-'}</td> */}
                         </tr>
