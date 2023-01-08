@@ -150,7 +150,7 @@ const AuthForm = () => {
         },
     });
     const [isLoading, setIsLoading] = useState(false);
-
+    console.log(isLoading);
     const changeHandler = (e) => {
         const familyMemberProperties = ['age', 'address', 'phone'];
         console.log(e.target.id);

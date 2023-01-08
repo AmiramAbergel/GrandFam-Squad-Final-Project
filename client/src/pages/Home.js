@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-
 import Modal from '../components/UI/Modal/Modal.js';
 import AuthForm from '../components/Auth/AuthForm.js';
 import styled from '@emotion/styled';
@@ -125,6 +124,7 @@ const Feature = styled.li`
 
 const Home = () => {
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
+    console.log(cookies, setCookie, removeCookie);
     const [isLoading, setIsLoading] = useState(false);
     useEffect(() => {
         removeCookie('token');

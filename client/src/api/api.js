@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const url = process.env.REACT_APP_BASE_URL;
+// const url = process.env.REACT_APP_BASE_URL;
 
 const api = axios.create({
     baseURL: process.env.REACT_APP_SERVER_URL,
@@ -65,7 +65,10 @@ export const subscribe = async (serviceWorkerReg) => {
             applicationServerKey: process.env.REACT_APP_WEB_PUSH_PUBLIC,
         });
         console.log(subscription);
-        axios.post('http://127.0.0.1:4000/api/v1/subscribe', subscription);
+        axios.post(
+            `${process.env.REACT_APP_SERVER_URL}/subscribe`,
+            subscription
+        );
     } catch (err) {
         console.log(err);
     }
