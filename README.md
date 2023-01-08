@@ -29,10 +29,10 @@ In summary, the GrandFam Squad Final Project is an excellent tool for families w
 <p align="center">
 
 ![ScreenShot](https://www.vectorlogo.zone/logos/reactjs/reactjs-icon.svg)
+![ScreenShot](https://www.vectorlogo.zone/logos/sendgrid/sendgrid-ar21.svg)
+![image.png](https://raw.githubusercontent.com/emotion-js/emotion/main/emotion.png**=600x400**)
 ![ScreenShot](https://www.vectorlogo.zone/logos/nodejs/nodejs-icon.svg)
-![ScreenShot](https://www.vectorlogo.zone/logos/python/python-icon.svg)
-![ScreenShot](https://www.vectorlogo.zone/logos/java/java-icon.svg)
-![ScreenShot](https://www.vectorlogo.zone/logos/unity3d/unity3d-ar21.svg)
+![ScreenShot](https://www.vectorlogo.zone/logos/expressjs/expressjs-ar21.svg)
 ![ScreenShot](https://www.vectorlogo.zone/logos/mongodb/mongodb-ar21.svg)
 
 </p>
