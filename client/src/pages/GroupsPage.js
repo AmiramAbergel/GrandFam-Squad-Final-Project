@@ -37,14 +37,13 @@ const GroupsPage = () => {
     const { myGrandparentsGroups, setMyGroup, myGrandParents } =
         useUserGrandParents();
     console.log(loggedUser);
+
     const handleGroupClick = async (event) => {
         const groupID = event.target.value;
         let FilteredGroup = {};
-        console.log(event);
         FilteredGroup = myGrandParents.find(
             (group) => group.familyID === groupID
         );
-        console.log(FilteredGroup);
         await setMyGroup(FilteredGroup);
         navigate(REDIRECT_PAGE);
     };
@@ -52,7 +51,7 @@ const GroupsPage = () => {
     const handleNewGroup = () => {
         navigate('/');
     };
-    console.log(myGrandparentsGroups);
+
     return (
         <>
             <h1>Hey! Please Choose group or create one</h1>

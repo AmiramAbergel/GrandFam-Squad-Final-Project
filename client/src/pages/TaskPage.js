@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 
 import tasks from './tasks';
+import Modal from '../components/UI/Modal/Modal.js';
+import NewTasksForm from '../components/Tasks/NewTasksForm.js';
+import { useGroupScoreTable } from '../hooks/GroupScoreTableContext.js';
 
 const TaskListWrapper = styled.div`
     width: 80%;
@@ -64,9 +67,33 @@ const Button = styled.button`
         background-color: #262833;
     }
 `;
+
+const DanceButton = styled.button`
+    font-size: 2rem;
+    border: none;
+    border-radius: 5px;
+    padding: 1rem 2rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    background-color: #39e991;
+    color: #ffffff;
+    animation: 0.5s ease-in-out;
+    margin-top: 2rem;
+
+    &:hover {
+        background-color: #67eeaa;
+    }
+`;
 const TaskList = () => {
     const [taskList, setTaskList] = useState(tasks);
     const [currentUser, setCurrentUser] = useState('');
+    const [clickToAdd, setClickToAdd] = useState(false);
+    const { usersInGroup } = useGroupScoreTable();
+    console.log('usersInGroup', usersInGroup);
+    const handleAddTask = (newTask) => {
+        setClickToAdd(true);
+        //setTaskList([...taskList, newTask]);
+    };
 
     const handleAssignmentChange = (event, task) => {
         const updatedTaskList = taskList.map((t) => {
@@ -168,6 +195,14 @@ const TaskList = () => {
                     ))}
                 </tbody>
             </Table>
+            <DanceButton onClick={() => setClickToAdd(true)}>
+                Add New Task
+            </DanceButton>
+            {clickToAdd && (
+                <Modal onClose={() => setClickToAdd(false)}>
+                    <NewTasksForm users={usersInGroup}></NewTasksForm>
+                </Modal>
+            )}
         </TaskListWrapper>
     );
 };

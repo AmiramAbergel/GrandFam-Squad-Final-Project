@@ -13,6 +13,7 @@ const REDIRECT_PAGE = '/';
 
 const MainRoutes = () => {
     const { myGroup } = useUserGrandParents();
+    console.log('myGroup', myGroup);
     const { scoreTable, usersInGroup } = useGroupScoreTable();
     const navigate = useNavigate();
     const { isAuthenticated, token } = useAuth();

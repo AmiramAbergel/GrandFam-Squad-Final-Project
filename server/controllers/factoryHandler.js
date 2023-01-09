@@ -37,6 +37,7 @@ export const updateOne = (Model) => async (req, res, next) => {
 };
 
 export const createOne = (Model) => async (req, res, next) => {
+    console.log('req.body', req.body);
     try {
         const doc = await Model.create(req.body);
         res.status(201).json({

@@ -8,6 +8,7 @@ import MainRoutes from './routes/MainRoutes.js';
 import { UserGrandParentsGroupProvider } from './hooks/GrandParentsGroupContext.js';
 import GroupsPage from './pages/GroupsPage.js';
 import { GroupScoreTableProvider } from './hooks/GroupScoreTableContext.js';
+import { TaskProvider } from './hooks/TasksContext.js';
 function App() {
     const registerAndSubscribe = async () => {
         try {
@@ -42,7 +43,9 @@ function App() {
                         element={
                             <UserGrandParentsGroupProvider>
                                 <GroupScoreTableProvider>
-                                    <MainRoutes />
+                                    <TaskProvider>
+                                        <MainRoutes />
+                                    </TaskProvider>
                                 </GroupScoreTableProvider>
                             </UserGrandParentsGroupProvider>
                         }
