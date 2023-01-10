@@ -18,6 +18,7 @@ export const deleteOne = (Model) => async (req, res, next) => {
 
 export const updateOne = (Model) => async (req, res, next) => {
     try {
+        console.log(req.params.id);
         const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
             new: true,
             runValidators: true,
@@ -57,20 +58,26 @@ export const getOne = (Model, popOptions) => async (req, res, next) => {
         if (popOptions) query = query.populate(popOptions);
         const doc = await query;
 
-        const userInGroup = doc.rank;
         let filter = {};
-        if (req.params) {
+        if (req.params && doc && doc.rank) {
+            const userInGroup = doc.rank;
             filter = {
                 userInGroup,
             };
+            //getting all users in the group
+            // Apply filters
+            let secQuery = User.find(filter);
+
+            // Execute query
+            const secDoc = await secQuery;
+            res.status(200).json({
+                status: 'success',
+                data: {
+                    data: doc,
+                    members: secDoc,
+                },
+            });
         }
-        //getting all users in the group
-        // Apply filters
-        let secQuery = User.find(filter);
-
-        // Execute query
-        const secDoc = await secQuery;
-
         if (!doc) {
             return next(AppError('No document found with that ID', 404));
         }
@@ -78,7 +85,6 @@ export const getOne = (Model, popOptions) => async (req, res, next) => {
             status: 'success',
             data: {
                 data: doc,
-                members: secDoc,
             },
         });
     } catch (err) {
@@ -90,8 +96,11 @@ export const getAll = (Model) => async (req, res, next) => {
     try {
         // To allow for nested GET reviews on tour (hack)
         let filter = {};
-        if (req.params.taskId) {
-            filter = { tasks: req.params.taskId };
+        if (req.params.sid) {
+            filter = { familyID: req.params.sid };
+        }
+        if (req.params.gid) {
+            filter = { grandParentAssigned: req.params.gid };
         }
         if (req.params.uid) {
             filter = { sharedWith: { $elemMatch: { $eq: req.params.uid } } };

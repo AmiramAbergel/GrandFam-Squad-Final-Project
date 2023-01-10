@@ -33,7 +33,6 @@ const createSendToken = (user, statusCode, req, res) => {
 
 export const signup = async (req, res, next) => {
     let myGrandparents;
-    let scoreTable;
     let familyMemberInfo;
     let myGrandparentsGroups = [];
     try {
@@ -179,7 +178,7 @@ export const forgotPassword = async (req, res, next) => {
         resetURL.search = searchParams;
         const fixedURL = resetURL.toString();
 
-        //await Email(user).sendPasswordReset(fixedURL);
+        await Email(user).sendPasswordReset(fixedURL);
 
         res.status(200).json({
             status: 'success',

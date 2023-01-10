@@ -1,7 +1,7 @@
 import { GrandParents } from '../models/grandParents.model.js';
 import { User } from '../models/userAuth.model.js';
 import { WeeklyScoreTable } from '../models/weeklyScoreTable.model.js';
-import { createOne, deleteOne, getAll, getOne } from './factoryHandler.js';
+import { deleteOne, getAll, getOne, updateOne } from './factoryHandler.js';
 
 // admin only
 export const createGrandparents = async (req, res, next) => {
@@ -69,4 +69,5 @@ export const createGrandparents = async (req, res, next) => {
 
 export const getAllGrandparents = getAll(GrandParents);
 export const getGrandparents = getOne(GrandParents);
+export const updateGrandparents = updateOne(GrandParents);
 export const deleteGrandparents = deleteOne(GrandParents);

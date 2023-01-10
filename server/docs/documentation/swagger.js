@@ -12,12 +12,18 @@ const options = {
         servers: [
             {
                 url: 'http://127.0.0.1:4000', //http://localhost:4000/
-
                 description: 'Development server',
             },
         ],
         components: {
-            schemas: swaggerSchemas,
+            // schemas: swaggerSchemas,
+            // securitySchemes: {    noauthAuth:{
+            // }
+            //     type: http
+            //     scheme: noauth
+            //   bearerAuth:
+            //     type: http
+            //     scheme: bearer},
         },
     },
 };

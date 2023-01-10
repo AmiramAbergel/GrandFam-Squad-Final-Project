@@ -6,16 +6,14 @@ import {
     createGrandparents,
     getAllGrandparents,
 } from '../controllers/grandparents.controllers.js';
-import {
-    createGrandParentsTask,
-    getAllGrandParentsTasks,
-} from '../controllers/grandparentsTasks.controllers.js';
+import { getAllGrandParentsTasks } from '../controllers/grandparentsTasks.controllers.js';
 import {
     deleteMe,
     getMe,
     getUser,
     updateMe,
 } from '../controllers/user.controllers.js';
+import { getAllScoreTable } from '../controllers/weeklySoreTable.controllers.js';
 import { authProtect } from '../middleware/auth.middleware.js';
 import { adminRoute } from './grandparentsAdmin.routes.js';
 
@@ -23,16 +21,21 @@ export const userRoute = Router();
 
 // Protect all routes after this middleware
 userRoute.use(authProtect);
-
 userRoute.patch('/updateMyPassword', updatePassword); // This route is used to update the user's password
 userRoute.get('/me', getMe, getUser); // This route is used to update the user's password
 userRoute.patch('/updateMe', updateMe); // This route is used to update the user's name and email
 userRoute.delete('/deleteMe', deleteMe); // This route is used to delete the user
 
-userRoute.route('/grandparents/new').post(createGrandparents);
-userRoute.route('/grandparents/tasks').get(getAllGrandParentsTasks);
 userRoute.route('/familyMember/:id').get(getMeAsFamilyMember);
-userRoute.route('/:uid/grandparents').get(getAllGrandparents);
+
+userRoute.route('/grandparents/new').post(createGrandparents); // This route is used to create a new grandparents group
+
+userRoute.route('/me/grandparents').get(getMe, getAllGrandparents);
+
+userRoute.route('/me/grandparents/:gid/tasks').get(getAllGrandParentsTasks); // This route is used to get all tasks for a grandparents group given the grandparents group id
+
+userRoute.route('/me/grandparents/:sid/score-table').get(getAllScoreTable); // This route is used to get score-table for a grandparents group given the grandparents familyScore id
+
 userRoute.use(restrictTo('admin')); // Restrict all routes after this middleware to only admin users
 // grandparent and admin handle routes for admin only
 userRoute.use(adminRoute);

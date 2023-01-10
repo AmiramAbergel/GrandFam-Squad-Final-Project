@@ -1,6 +1,5 @@
 import webpush from 'web-push';
 import { Subscription } from '../models/notificationSubscription.model.js';
-
 import { User } from '../models/userAuth.model.js';
 import AppError from '../utils/appError.js';
 import { deleteOne, getAll, getOne, updateOne } from './factoryHandler.js';
@@ -55,7 +54,11 @@ export const updateMe = async (req, res, next) => {
 };
 
 export const getMe = (req, res, next) => {
-    req.params.id = req.user._id;
+    if (req.path === '/me') {
+        req.params.id = req.user._id;
+    } else {
+        req.params.uid = req.user.familyMember._id;
+    }
     next();
 };
 

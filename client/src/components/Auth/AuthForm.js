@@ -150,10 +150,10 @@ const AuthForm = () => {
         },
     });
     const [isLoading, setIsLoading] = useState(false);
-    console.log(isLoading);
+
     const changeHandler = (e) => {
         const familyMemberProperties = ['age', 'address', 'phone'];
-        console.log(e.target.id);
+
         setForm((prev) => ({
             ...prev,
             [e.target.id]: e.target.value,
@@ -193,7 +193,6 @@ const AuthForm = () => {
         <AuthFormWrapper>
             <Main className='main'>
                 <Image src={MyImage} alt='Auth form' />
-
                 <Heading className='heading-secondary ma-bt-lg'>
                     {isSignUp ? 'Sign Up' : 'Log In'}
                 </Heading>

@@ -22,13 +22,10 @@ export function UserGrandParentsGroupProvider({ children }) {
     useEffect(() => {
         const getAllGrandParents = async () => {
             try {
-                const { data } = await clientAPI(
-                    `/users/${loggedUser.familyMember._id}/grandparents`,
-                    {
-                        method: 'GET',
-                        token,
-                    }
-                );
+                const { data } = await clientAPI(`/users/me/grandparents`, {
+                    method: 'GET',
+                    token,
+                });
 
                 setMyGrandParents(data.data);
             } catch (err) {
@@ -38,7 +35,7 @@ export function UserGrandParentsGroupProvider({ children }) {
         const getAllGrandParentsGroups = async () => {
             try {
                 const { data } = await clientAPI(
-                    `/users/${loggedUser.familyMember._id}/grandparents?groups=true`,
+                    `/users/me/grandparents?groups=true`,
                     {
                         method: 'GET',
                         token,

@@ -16,13 +16,10 @@ export function TaskProvider({ children }) {
     useEffect(() => {
         const getAllTasks = async () => {
             try {
-                const { data } = await clientAPI(
-                    `/users/${loggedUser.familyMember._id}/grandparents`,
-                    {
-                        method: 'GET',
-                        token,
-                    }
-                );
+                const { data } = await clientAPI(`/users/me/grandparents`, {
+                    method: 'GET',
+                    token,
+                });
 
                 setTasks(data.data);
             } catch (err) {
