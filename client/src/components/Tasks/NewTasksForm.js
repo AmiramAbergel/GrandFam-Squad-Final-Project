@@ -1,23 +1,36 @@
 import { useState } from 'react';
 import { useUserGrandParents } from '../../hooks/GrandParentsGroupContext.js';
 import { useTasks } from '../../hooks/TasksContext.js';
-
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import Select from 'react-select';
 const NewTasksForm = (props) => {
     const [isLoading, setIsLoading] = useState(false);
     const { createNewTask } = useTasks();
     const { myGroup } = useUserGrandParents();
-
+    const [taskDate, setTaskDate] = useState(new Date());
     const [form, setForm] = useState({
         grandParentAssigned: myGroup._id,
         taskType: '',
         taskName: '',
-        taskTime: '',
+        taskTime: taskDate,
         taskColor: '',
         taskLocation: '',
         description: '',
         status: '',
         familyMemberAssigned: '',
     });
+
+    const taskTypeOptions = [
+        { value: 'task', label: 'Task' },
+        { value: 'event', label: 'Event' },
+        { value: 'appointment', label: 'Appointment' },
+    ];
+
+    const taskStatusOptions = [
+        { value: 'true', label: 'Complete' },
+        { value: 'false', label: 'Pending...' },
+    ];
 
     const changeHandler = (event) => {
         console.log(event.target.value);
@@ -37,6 +50,14 @@ const NewTasksForm = (props) => {
         }
         setIsLoading(false);
     };
+
+    const p = (e) => {
+        console.log(e);
+        setForm((prev) => ({
+            ...prev,
+            taskType: e.value,
+        }));
+    };
     return (
         <form onSubmit={submitTaskHandler}>
             <div>
@@ -50,16 +71,7 @@ const NewTasksForm = (props) => {
             </div>
             <div>
                 <label htmlFor='taskType'>Task Type</label>
-                <input
-                    type='text'
-                    id='taskType'
-                    onChange={(e) =>
-                        setForm((prev) => ({
-                            ...prev,
-                            taskType: e.target.value,
-                        }))
-                    }
-                />
+                <Select onChange={p} options={taskTypeOptions} />
             </div>
             <div>
                 <label htmlFor='taskName'>Task Name</label>
@@ -76,15 +88,9 @@ const NewTasksForm = (props) => {
             </div>
             <div>
                 <label htmlFor='taskTime'>Task Time</label>
-                <input
-                    type='text'
-                    id='taskTime'
-                    onChange={(e) =>
-                        setForm((prev) => ({
-                            ...prev,
-                            taskTime: e.target.value,
-                        }))
-                    }
+                <DatePicker
+                    selected={taskDate}
+                    onChange={(date) => setTaskDate(date)}
                 />
             </div>
             <div>
@@ -131,13 +137,11 @@ const NewTasksForm = (props) => {
             </div>
             <div>
                 <label htmlFor='status'>Status</label>
-
-                <input
-                    type='text'
-                    id='status'
+                <Select
                     onChange={(e) =>
-                        setForm((prev) => ({ ...prev, status: e.target.value }))
+                        setForm((prev) => ({ ...prev, status: e.value }))
                     }
+                    options={taskStatusOptions}
                 />
             </div>
             <div>
