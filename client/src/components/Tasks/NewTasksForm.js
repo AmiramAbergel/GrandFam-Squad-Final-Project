@@ -1,9 +1,47 @@
 import { useState } from 'react';
 import { useUserGrandParents } from '../../hooks/GrandParentsGroupContext.js';
 import { useTasks } from '../../hooks/TasksContext.js';
+
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Select from 'react-select';
+import styled from '@emotion/styled';
+
+const LabelStyles = styled.label`
+    font-size: 1.5rem;
+    color: white;
+    padding: 0.5rem;
+    width: 97%;
+`;
+
+const InputStyles = styled.input`
+    font-size: 1rem;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    border: 1px solid #ced4da;
+    width: 97%;
+`;
+
+const SelectStyles = styled.select`
+    font-size: 1rem;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    border: 1px solid #ced4da;
+    width: 97%;
+`;
+
+const Button = styled.button`
+    margin: 50px 230px;
+    font-size: 3rem;
+    background-color: #39e991;
+    color: #ffffff;
+    border-radius: 1rem;
+    cursor: pointer;
+    &:hover {
+        background-color: #00ff62;
+    }
+`;
+
 const NewTasksForm = (props) => {
     const [isLoading, setIsLoading] = useState(false);
     const { createNewTask } = useTasks();
@@ -30,6 +68,12 @@ const NewTasksForm = (props) => {
     const taskStatusOptions = [
         { value: 'true', label: 'Complete' },
         { value: 'false', label: 'Pending...' },
+    ];
+
+    const taskColorsOptions = [
+        { value: 'blue', label: 'Blue' },
+        { value: 'red', label: 'Red' },
+        { value: 'yellow', label: 'Yellow' },
     ];
 
     const changeHandler = (event) => {
@@ -61,8 +105,10 @@ const NewTasksForm = (props) => {
     return (
         <form onSubmit={submitTaskHandler}>
             <div>
-                <label htmlFor='grandParentAssigned'>Grand Parents ID</label>
-                <input
+                <LabelStyles htmlFor='grandParentAssigned'>
+                    Grand Parents ID
+                </LabelStyles>
+                <InputStyles
                     type='text'
                     id='grandParentAssigned'
                     value={form.grandParentAssigned}
@@ -70,12 +116,12 @@ const NewTasksForm = (props) => {
                 />
             </div>
             <div>
-                <label htmlFor='taskType'>Task Type</label>
+                <LabelStyles htmlFor='taskType'>Task Type</LabelStyles>
                 <Select onChange={p} options={taskTypeOptions} />
             </div>
             <div>
-                <label htmlFor='taskName'>Task Name</label>
-                <input
+                <LabelStyles htmlFor='taskName'>Task Name</LabelStyles>
+                <InputStyles
                     type='text'
                     id='taskName'
                     onChange={(e) =>
@@ -87,30 +133,24 @@ const NewTasksForm = (props) => {
                 />
             </div>
             <div>
-                <label htmlFor='taskTime'>Task Time</label>
+                <LabelStyles htmlFor='taskTime'>Task Time</LabelStyles>
                 <DatePicker
                     selected={taskDate}
                     onChange={(date) => setTaskDate(date)}
                 />
             </div>
             <div>
-                <label htmlFor='taskColor'>Task Color</label>
-
-                <input
-                    type='text'
-                    id='taskColor'
+                <LabelStyles htmlFor='taskColor'>Task Color</LabelStyles>
+                <Select
                     onChange={(e) =>
-                        setForm((prev) => ({
-                            ...prev,
-                            taskColor: e.target.value,
-                        }))
+                        setForm((prev) => ({ ...prev, taskColor: e.value }))
                     }
+                    options={taskColorsOptions}
                 />
             </div>
             <div>
-                <label htmlFor='taskLocation'>Task Location</label>
-
-                <input
+                <LabelStyles htmlFor='taskLocation'>Task Location</LabelStyles>
+                <InputStyles
                     type='text'
                     id='taskLocation'
                     onChange={(e) =>
@@ -122,9 +162,8 @@ const NewTasksForm = (props) => {
                 />
             </div>
             <div>
-                <label htmlFor='description'>Description</label>
-
-                <input
+                <LabelStyles htmlFor='description'>Description</LabelStyles>
+                <InputStyles
                     type='text'
                     id='description'
                     onChange={(e) =>
@@ -136,7 +175,7 @@ const NewTasksForm = (props) => {
                 />
             </div>
             <div>
-                <label htmlFor='status'>Status</label>
+                <LabelStyles htmlFor='status'>Status</LabelStyles>
                 <Select
                     onChange={(e) =>
                         setForm((prev) => ({ ...prev, status: e.value }))
@@ -145,21 +184,21 @@ const NewTasksForm = (props) => {
                 />
             </div>
             <div>
-                <label htmlFor='familyMemberAssigned'>
+                <LabelStyles htmlFor='familyMemberAssigned'>
                     Family Member Assigned
-                </label>
-                <select onChange={changeHandler}>
+                </LabelStyles>
+                <SelectStyles onChange={changeHandler}>
                     <option value=''>--Please choose an option--</option>
                     {props.users.map((user) => (
                         <option key={user._id} uid={user._id} value={user._id}>
                             {user.name}
                         </option>
                     ))}
-                </select>
+                </SelectStyles>
             </div>
-            <button type='submit' disabled={isLoading}>
+            <Button type='submit' disabled={isLoading}>
                 Submit
-            </button>
+            </Button>
         </form>
     );
 };
