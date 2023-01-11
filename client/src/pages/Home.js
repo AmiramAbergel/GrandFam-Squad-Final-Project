@@ -124,7 +124,6 @@ const Feature = styled.li`
 
 const Home = () => {
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
-    console.log(cookies, setCookie, removeCookie);
     const [isLoading, setIsLoading] = useState(false);
     useEffect(() => {
         removeCookie('token');

@@ -15,6 +15,8 @@ const MainRoutes = () => {
     const { myGroup } = useUserGrandParents();
     console.log('myGroup', myGroup);
     const { scoreTable, usersInGroup } = useGroupScoreTable();
+    console.log('Score', scoreTable);
+    console.log('usersInGroup', usersInGroup);
     const navigate = useNavigate();
     const { isAuthenticated, token } = useAuth();
 

@@ -13,7 +13,10 @@ import {
     getUser,
     updateMe,
 } from '../controllers/user.controllers.js';
-import { getAllScoreTable } from '../controllers/weeklySoreTable.controllers.js';
+import {
+    getAllScoreTable,
+    getScoreTable,
+} from '../controllers/weeklySoreTable.controllers.js';
 import { authProtect } from '../middleware/auth.middleware.js';
 import { adminRoute } from './grandparentsAdmin.routes.js';
 
@@ -34,7 +37,7 @@ userRoute.route('/me/grandparents').get(getMe, getAllGrandparents);
 
 userRoute.route('/me/grandparents/:gid/tasks').get(getAllGrandParentsTasks); // This route is used to get all tasks for a grandparents group given the grandparents group id
 
-userRoute.route('/me/grandparents/:sid/score-table').get(getAllScoreTable); // This route is used to get score-table for a grandparents group given the grandparents familyScore id
+userRoute.route('/me/grandparents/:id/score-table').get(getScoreTable); // This route is used to get score-table for a grandparents group given the grandparents familyScore id (id of score table)
 
 userRoute.use(restrictTo('admin')); // Restrict all routes after this middleware to only admin users
 // grandparent and admin handle routes for admin only

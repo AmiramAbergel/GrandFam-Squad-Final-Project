@@ -19,10 +19,13 @@ export function GroupScoreTableProvider({ children }) {
     useEffect(() => {
         const getScoreTable = async (fid) => {
             try {
-                const { data } = await clientAPI(`/score/${fid}`, {
-                    method: 'GET',
-                    token,
-                });
+                const { data } = await clientAPI(
+                    `/users/me/grandparents/${fid}/score-table`,
+                    {
+                        method: 'GET',
+                        token,
+                    }
+                );
                 console.log(data);
                 setScoreTable(data.data);
                 setUsersInGroup(data.members);
