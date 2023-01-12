@@ -59,7 +59,7 @@ export const getOne = (Model, popOptions) => async (req, res, next) => {
         const doc = await query;
 
         let filter = {};
-        if (req.params && doc && doc.rank) {
+        if (req.params && doc?.rank) {
             const userInGroup = doc.rank;
             filter = {
                 userInGroup,
@@ -77,16 +77,17 @@ export const getOne = (Model, popOptions) => async (req, res, next) => {
                     members: secDoc,
                 },
             });
+        } else {
+            if (!doc) {
+                return next(AppError('No document found with that ID', 404));
+            }
+            res.status(200).json({
+                status: 'success',
+                data: {
+                    data: doc,
+                },
+            });
         }
-        if (!doc) {
-            return next(AppError('No document found with that ID', 404));
-        }
-        res.status(200).json({
-            status: 'success',
-            data: {
-                data: doc,
-            },
-        });
     } catch (err) {
         next(err, req, res);
     }

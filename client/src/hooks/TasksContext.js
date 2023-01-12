@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { clientAPI } from '../api/api.js';
 import { useAuth } from './Auth.js';
+import { useUserGrandParents } from './GrandParentsGroupContext.js';
 
 const TaskContext = createContext({
     tasks: [],
@@ -12,15 +13,19 @@ export const useTasks = () => useContext(TaskContext);
 export function TaskProvider({ children }) {
     const { loggedUser, token } = useAuth();
     const [tasks, setTasks] = useState([]);
-
+    const { myGroup } = useUserGrandParents();
+    console.log('myGroupIn context', myGroup);
     useEffect(() => {
         const getAllTasks = async () => {
             try {
-                const { data } = await clientAPI(`/users/me/grandparents`, {
-                    method: 'GET',
-                    token,
-                });
-
+                const { data } = await clientAPI(
+                    `/users/me/grandparents/${myGroup._id}/tasks`,
+                    {
+                        method: 'GET',
+                        token,
+                    }
+                );
+                console.log('data', data.data);
                 setTasks(data.data);
             } catch (err) {
                 throw err;

@@ -6,7 +6,6 @@ import { useUserGrandParents } from '../hooks/GrandParentsGroupContext.js';
 import { useGroupScoreTable } from '../hooks/GroupScoreTableContext.js';
 import GrandparentsMapView from '../pages/GrandparentsMapView.js';
 import DndCalendar from '../pages/Schedule.js';
-
 import ScoreTablePage from '../pages/ScoreTablePage.js';
 import TaskList from '../pages/TaskPage.js';
 const REDIRECT_PAGE = '/';

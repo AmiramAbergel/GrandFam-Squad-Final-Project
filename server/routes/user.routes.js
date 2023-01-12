@@ -13,10 +13,7 @@ import {
     getUser,
     updateMe,
 } from '../controllers/user.controllers.js';
-import {
-    getAllScoreTable,
-    getScoreTable,
-} from '../controllers/weeklySoreTable.controllers.js';
+import { getScoreTable } from '../controllers/weeklySoreTable.controllers.js';
 import { authProtect } from '../middleware/auth.middleware.js';
 import { adminRoute } from './grandparentsAdmin.routes.js';
 

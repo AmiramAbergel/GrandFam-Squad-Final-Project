@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 
-import tasks from './tasks';
+import tasksData from './tasks';
 import Modal from '../components/UI/Modal/Modal.js';
 import NewTasksForm from '../components/Tasks/NewTasksForm.js';
 import { useGroupScoreTable } from '../hooks/GroupScoreTableContext.js';
+import { useTasks } from '../hooks/TasksContext.js';
 
 const TaskListWrapper = styled.div`
     width: 80%;
@@ -84,20 +85,21 @@ const DanceButton = styled.button`
         background-color: #67eeaa;
     }
 `;
-const TaskList = () => {
-    const [taskList, setTaskList] = useState(tasks);
+const TaskList = (props) => {
+    const [taskList, setTaskList] = useState(tasksData);
     const [currentUser, setCurrentUser] = useState('');
     const [clickToAdd, setClickToAdd] = useState(false);
     const { usersInGroup } = useGroupScoreTable();
-    console.log('usersInGroup', usersInGroup);
+    const { tasks } = useTasks();
+    console.log('Task page', tasks);
     const handleAddTask = (newTask) => {
         setClickToAdd(true);
         //setTaskList([...taskList, newTask]);
     };
 
-    const handleAssignmentChange = (event, task) => {
+    const handleAssignmentChange = (event, tasksData) => {
         const updatedTaskList = taskList.map((t) => {
-            if (t === task) {
+            if (t === tasksData) {
                 return {
                     ...t,
                     assignedTo: event.target.value,
@@ -108,9 +110,9 @@ const TaskList = () => {
         setTaskList(updatedTaskList);
     };
 
-    const handleUnassign = (task) => {
+    const handleUnassign = (tasksData) => {
         const updatedTaskList = taskList.map((t) => {
-            if (t === task) {
+            if (t === tasksData) {
                 return {
                     ...t,
                     assignedTo: '',
@@ -125,9 +127,9 @@ const TaskList = () => {
         setCurrentUser(event.target.value);
     };
 
-    const handleJoin = (task) => {
+    const handleJoin = (tasksData) => {
         const updatedTaskList = taskList.map((t) => {
-            if (t === task) {
+            if (t === tasksData) {
                 return {
                     ...t,
                     assignedTo: currentUser,
@@ -143,8 +145,12 @@ const TaskList = () => {
             <Table>
                 <thead>
                     <tr>
+                        <th>Task-Type</th>
+                        <th>Title</th>
+                        <th>Task-Location</th>
                         <th>Description</th>
                         <th>Assigned To</th>
+                        <th>Task Status</th>
                         <th>Due Date</th>
                         <th>Actions</th>
                     </tr>
@@ -152,10 +158,13 @@ const TaskList = () => {
                 <tbody>
                     {taskList.map((task, i) => (
                         <tr key={i}>
-                            <td>{task.description}</td>
+                            <td>{tasksData.description}</td>
+                            <td></td>
+                            <td>{tasksData.dueDate}</td>
+                            <td></td>
                             <td>
                                 <Select
-                                    value={task.assignedTo}
+                                    value={tasksData.assignedTo}
                                     onChange={(event) =>
                                         handleAssignmentChange(event, task)
                                     }
@@ -166,9 +175,11 @@ const TaskList = () => {
                                     <option value='Ben'>Ben</option>
                                 </Select>
                             </td>
-                            <td>{task.dueDate}</td>
+                            <td></td>
+                            <td></td>
                             <td>
-                                {task.assignedTo ? (
+                                {' '}
+                                {tasksData.assignedTo ? (
                                     <Button
                                         onClick={() => handleUnassign(task)}
                                     >
@@ -186,7 +197,9 @@ const TaskList = () => {
                                     </Select>
                                 )}
                                 {currentUser && !task.assignedTo ? (
-                                    <Button onClick={() => handleJoin(task)}>
+                                    <Button
+                                        onClick={() => handleJoin(tasksData)}
+                                    >
                                         Join
                                     </Button>
                                 ) : null}
