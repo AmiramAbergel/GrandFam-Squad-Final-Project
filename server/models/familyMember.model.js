@@ -3,6 +3,7 @@ import validator from 'validator';
 const { Schema } = mongoose;
 
 export const familyMemberSchema = new Schema({
+    nickname: { type: String, required: true },
     age: { type: Number, required: true },
     address: { type: String, required: true },
     phone: { type: String, required: true },

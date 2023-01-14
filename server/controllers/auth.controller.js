@@ -38,6 +38,7 @@ export const signup = async (req, res, next) => {
     try {
         if (req.body.familyMember) {
             familyMemberInfo = await FamilyMember.create({
+                nickname: req.body.familyMember.nickname,
                 age: req.body.familyMember.age,
                 address: req.body.familyMember.address,
                 phone: req.body.familyMember.phone,

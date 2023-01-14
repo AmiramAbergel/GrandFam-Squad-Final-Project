@@ -22,6 +22,14 @@ const grandParentsTasksSchema = new Schema({
     },
 });
 
+grandParentsTasksSchema.pre(/^find/, function (next) {
+    this.populate({
+        path: 'familyMemberAssigned',
+        select: 'nickname',
+    });
+    next();
+});
+
 export const GrandParentsTasks = mongoose.model(
     'GrandParentsTasks',
     grandParentsTasksSchema

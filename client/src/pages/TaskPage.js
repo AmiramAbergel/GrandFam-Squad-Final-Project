@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-
-import tasksData from './tasks';
 import Modal from '../components/UI/Modal/Modal.js';
 import NewTasksForm from '../components/Tasks/NewTasksForm.js';
 import { useGroupScoreTable } from '../hooks/GroupScoreTableContext.js';
 import { useTasks } from '../hooks/TasksContext.js';
+import Select from 'react-select';
 
 const TaskListWrapper = styled.div`
-    width: 80%;
+    width: 90%;
     margin: 0 auto;
 `;
 
@@ -16,7 +15,7 @@ const Table = styled.table`
     border-collapse: collapse;
     width: 100%;
     margin-top: 20px;
-    font-size: 1.5rem;
+    font-size: 1rem;
     font-family: 'Roboto', sans-serif;
     tr {
         &:nth-of-type(odd) {
@@ -52,7 +51,7 @@ const Table = styled.table`
     }
 `;
 
-const Select = styled.select`
+const SelectField = styled.select`
     margin-left: 10px;
     font-size: 1.5rem;
 `;
@@ -85,31 +84,30 @@ const DanceButton = styled.button`
         background-color: #67eeaa;
     }
 `;
-const TaskList = (props) => {
-    const [taskList, setTaskList] = useState(tasksData);
+const TaskList = () => {
+    const { tasks } = useTasks();
+    const [taskList, setTaskList] = useState(tasks);
     const [currentUser, setCurrentUser] = useState('');
     const [clickToAdd, setClickToAdd] = useState(false);
     const { usersInGroup } = useGroupScoreTable();
-    const { tasks } = useTasks();
-    console.log('Task page', tasks);
+
+    console.log('Task page', taskList);
     const handleAddTask = (newTask) => {
         setClickToAdd(true);
         //setTaskList([...taskList, newTask]);
     };
 
-    const handleAssignmentChange = (event, tasksData) => {
-        const updatedTaskList = taskList.map((t) => {
-            if (t === tasksData) {
-                return {
-                    ...t,
-                    assignedTo: event.target.value,
-                };
-            }
-            return t;
-        });
-        setTaskList(updatedTaskList);
+    const membersOptions = (users) => {
+        const res = [];
+        users.map((user) =>
+            res.push({ value: user.name, label: user.name, id: user._id })
+        );
+        return res;
     };
 
+    const handleAssignmentChange = (event) => {
+        console.log(event);
+    };
     const handleUnassign = (tasksData) => {
         const updatedTaskList = taskList.map((t) => {
             if (t === tasksData) {
@@ -139,7 +137,7 @@ const TaskList = (props) => {
         });
         setTaskList(updatedTaskList);
     };
-
+    console.log('taskList!!!', taskList);
     return (
         <TaskListWrapper>
             <Table>
@@ -158,28 +156,36 @@ const TaskList = (props) => {
                 <tbody>
                     {taskList.map((task, i) => (
                         <tr key={i}>
-                            <td>{tasksData.description}</td>
-                            <td></td>
-                            <td>{tasksData.dueDate}</td>
-                            <td></td>
+                            <td>{task.taskType}</td>
+                            <td>{task.taskName}</td>
+                            <td>{task.taskLocation}</td>
+                            <td>{task.description}</td>
                             <td>
                                 <Select
-                                    value={tasksData.assignedTo}
-                                    onChange={(event) =>
-                                        handleAssignmentChange(event, task)
-                                    }
-                                >
-                                    <option value=''>Unassigned</option>
-                                    <option value='Amiram'>Amiram</option>
-                                    <option value='Sami'>Sami</option>
-                                    <option value='Ben'>Ben</option>
-                                </Select>
+                                    name={task._id}
+                                    options={membersOptions(usersInGroup)}
+                                    onChange={(e, value) => {
+                                        setTaskList(
+                                            taskList.map((t) => {
+                                                if (t._id === task._id) {
+                                                    return {
+                                                        ...t,
+                                                        familyMemberAssigned: {
+                                                            _id: value.name,
+                                                            nickname: e.value,
+                                                        },
+                                                    };
+                                                }
+                                                return t;
+                                            })
+                                        );
+                                    }}
+                                />
                             </td>
-                            <td></td>
-                            <td></td>
+                            <td>{task.status}</td>
+                            <td>{task.taskTime}</td>
                             <td>
-                                {' '}
-                                {tasksData.assignedTo ? (
+                                {task.familyMemberAssigned ? (
                                     <Button
                                         onClick={() => handleUnassign(task)}
                                     >
@@ -187,19 +193,13 @@ const TaskList = (props) => {
                                     </Button>
                                 ) : (
                                     <Select
-                                        value={currentUser}
+                                        options={membersOptions(usersInGroup)}
                                         onChange={handleCurrentUserChange}
-                                    >
-                                        <option value=''>Select User</option>
-                                        <option value='Amiram'>Amiram</option>
-                                        <option value='Sami'>Sami</option>
-                                        <option value='Ben'>Ben</option>
-                                    </Select>
+                                    />
                                 )}
-                                {currentUser && !task.assignedTo ? (
-                                    <Button
-                                        onClick={() => handleJoin(tasksData)}
-                                    >
+                                {currentUser &&
+                                !task.familyMemberAssigned.nickname ? (
+                                    <Button onClick={() => handleJoin(task)}>
                                         Join
                                     </Button>
                                 ) : null}
