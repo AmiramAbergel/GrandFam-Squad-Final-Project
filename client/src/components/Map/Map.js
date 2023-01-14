@@ -4,6 +4,7 @@ import LocationInfoBox from './MapDetails/LocationInfoBox.js';
 import LocationMarker from './MapDetails/LocationMarker.js';
 import styled from '@emotion/styled';
 import { useUserGrandParents } from '../../hooks/GrandParentsGroupContext.js';
+// !this is the map component, Start working on animation of the markers
 const StyledMap = styled.div`
     /* Center the map on the page */
     position: absolute;
