@@ -1,10 +1,9 @@
 import GoogleMapReact from 'google-map-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import LocationInfoBox from './MapDetails/LocationInfoBox.js';
 import LocationMarker from './MapDetails/LocationMarker.js';
 import styled from '@emotion/styled';
 import { useUserGrandParents } from '../../hooks/GrandParentsGroupContext.js';
-// !this is the map component, Start working on animation of the markers
 const StyledMap = styled.div`
     /* Center the map on the page */
     position: absolute;
@@ -33,15 +32,50 @@ const Map = ({ center, zoom }) => {
     const { myGroup } = useUserGrandParents();
     console.log('myGroup', myGroup);
     const [locationInfo, setLocationInfo] = useState(null);
-    const markers = myGroup.location.map(({ name, lat, lng }, i) => {
+    const [updateCounter, setUpdateCounter] = useState(0);
+    const [markerPositions, setMarkerPositions] = useState(
+        myGroup.location.map(({ lat, lng }) => ({ lat, lng }))
+    );
+
+    useEffect(() => {
+        let animationInterval;
+        // Move markers to new positions
+        const updateMarkerPositions = () => {
+            if (updateCounter < 15) {
+                // Code to calculate new positions for markers goes here
+
+                const newMarkerPositions = markerPositions.map(
+                    ({ lat, lng }) => {
+                        return {
+                            lat: lat + 0.0001,
+                            lng: lng + 0.0001,
+                        };
+                    }
+                );
+                setMarkerPositions(newMarkerPositions);
+                // increment update counter
+                setUpdateCounter(updateCounter + 1);
+            } else {
+                // Stop the animation
+                clearInterval(animationInterval);
+            }
+        };
+
+        animationInterval = setInterval(updateMarkerPositions, 1000);
+
+        return () => clearInterval(animationInterval);
+    }, [markerPositions, updateCounter]);
+
+    const markers = markerPositions.map(({ lat, lng }, i) => {
         return (
             <LocationMarker
                 key={i}
                 idx={i}
-                name={name}
                 lat={lat}
                 lng={lng}
-                onClick={() => setLocationInfo({ id: i, title: name })}
+                onClick={() =>
+                    setLocationInfo({ id: i, title: myGroup.location[i].name })
+                }
             />
         );
     });
