@@ -86,7 +86,7 @@ const DanceButton = styled.button`
     }
 `;
 const TaskList = () => {
-    const { tasks } = useTasks();
+    const { tasks, deleteTask } = useTasks();
     const [taskList, setTaskList] = useState(tasks);
     const [currentUser, setCurrentUser] = useState('');
     const [clickToAdd, setClickToAdd] = useState(false);
@@ -106,8 +106,11 @@ const TaskList = () => {
         return res;
     };
 
-    const deleteHandler = (tasksData) => {};
-    const editeHandler = (tasksData) => {};
+    const deleteTaskHandler = (tasksData) => {
+        console.log(tasksData);
+        deleteTask(tasksData._id);
+    };
+    const updateTaskHandler = (tasksData) => {};
 
     const handleAssignmentChange = (event) => {
         console.log(event);
@@ -196,10 +199,10 @@ const TaskList = () => {
                             </td>
                             <td>{task.taskTime}</td>
                             <td>
-                                <Button onClick={deleteHandler}>
+                                <Button onClick={() => deleteTaskHandler(task)}>
                                     Delete Task
                                 </Button>
-                                <Button onClick={editeHandler}>
+                                <Button onClick={() => updateTaskHandler(task)}>
                                     Edit Task
                                 </Button>
                             </td>

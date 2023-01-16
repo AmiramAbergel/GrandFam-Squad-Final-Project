@@ -8,7 +8,9 @@ import {
 } from '../controllers/grandparents.controllers.js';
 import {
     createGrandParentsTask,
+    deleteGrandParentsTask,
     getAllGrandParentsTasks,
+    updateGrandParentsTask,
 } from '../controllers/grandparentsTasks.controllers.js';
 
 import {
@@ -46,6 +48,10 @@ adminRoute
     .route('/admin/grandparents/tasks')
     .get(getAllGrandParentsTasks)
     .post(createGrandParentsTask);
+adminRoute
+    .route('/admin/grandparents/tasks/:id')
+    .patch(updateGrandParentsTask)
+    .delete(deleteGrandParentsTask);
 
 adminRoute
     .route('/admin/manage/:id')
