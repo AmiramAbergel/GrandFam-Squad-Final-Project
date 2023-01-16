@@ -42,8 +42,8 @@ const Map = ({ center, zoom }) => {
         // Move markers to new positions
         const updateMarkerPositions = () => {
             if (updateCounter < 15) {
-                // Code to calculate new positions for markers goes here
-
+                // 15 updates in order to move the markers with limit of 15 new locations.
+                // calculate new positions for markers
                 const newMarkerPositions = markerPositions.map(
                     ({ lat, lng }) => {
                         return {

@@ -98,7 +98,7 @@ const TaskList = () => {
     };
 
     const membersOptions = (users) => {
-        const res = [];
+        const res = [{ value: '', label: 'Empty' }];
         users.map((user) =>
             res.push({ value: user.name, label: user.name, id: user._id })
         );
@@ -113,7 +113,7 @@ const TaskList = () => {
             if (t === tasksData) {
                 return {
                     ...t,
-                    assignedTo: '',
+                    familyMemberAssigned: '',
                 };
             }
             return t;
@@ -130,7 +130,7 @@ const TaskList = () => {
             if (t === tasksData) {
                 return {
                     ...t,
-                    assignedTo: currentUser,
+                    familyMemberAssigned: currentUser,
                 };
             }
             return t;
@@ -150,7 +150,6 @@ const TaskList = () => {
                         <th>Assigned To</th>
                         <th>Task Status</th>
                         <th>Due Date</th>
-                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -179,31 +178,18 @@ const TaskList = () => {
                                                 return t;
                                             })
                                         );
+                                        setCurrentUser(e.value);
                                     }}
                                 />
                             </td>
-                            <td>{task.status}</td>
-                            <td>{task.taskTime}</td>
                             <td>
-                                {task.familyMemberAssigned ? (
-                                    <Button
-                                        onClick={() => handleUnassign(task)}
-                                    >
-                                        Unassign
-                                    </Button>
+                                {task.familyMemberAssigned.nickname ? (
+                                    <Button>In progress...</Button>
                                 ) : (
-                                    <Select
-                                        options={membersOptions(usersInGroup)}
-                                        onChange={handleCurrentUserChange}
-                                    />
+                                    <Button>Waiting !</Button>
                                 )}
-                                {currentUser &&
-                                !task.familyMemberAssigned.nickname ? (
-                                    <Button onClick={() => handleJoin(task)}>
-                                        Join
-                                    </Button>
-                                ) : null}
                             </td>
+                            <td>{task.taskTime}</td>
                         </tr>
                     ))}
                 </tbody>
