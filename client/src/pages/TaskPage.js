@@ -25,14 +25,13 @@ const Table = styled.table`
             background-color: #f5f5f5;
         }
         &:hover {
-            background-color: #39e991;
             cursor: pointer;
             td {
                 color: #262833;
             }
         }
         td {
-            padding: 10px;
+            padding: 12px;
             border: 1px solid #ccc;
             &:first-of-type {
                 width: 15%;
@@ -43,7 +42,7 @@ const Table = styled.table`
         }
         th {
             text-align: left;
-            padding: 10px;
+            padding: 12px;
             background-color: #67eeaa;
             color: #ffffff;
             border: 1px solid #ccc;
@@ -57,14 +56,16 @@ const SelectField = styled.select`
 `;
 
 const Button = styled.button`
-    margin-left: 10px;
+    margin: 8px;
     font-size: 1.5rem;
+    padding: 3px 20px;
+    border-radius: 18px;
     background-color: #39e991;
     color: #ffffff;
     border: none;
     cursor: pointer;
     &:hover {
-        background-color: #00ff62;
+        background-color: #08381b;
     }
 `;
 
@@ -98,12 +99,15 @@ const TaskList = () => {
     };
 
     const membersOptions = (users) => {
-        const res = [{ value: '', label: 'Empty' }];
+        const res = [{ value: '', label: 'Select Member' }];
         users.map((user) =>
             res.push({ value: user.name, label: user.name, id: user._id })
         );
         return res;
     };
+
+    const deleteHandler = (tasksData) => {};
+    const editeHandler = (tasksData) => {};
 
     const handleAssignmentChange = (event) => {
         console.log(event);
@@ -150,6 +154,7 @@ const TaskList = () => {
                         <th>Assigned To</th>
                         <th>Task Status</th>
                         <th>Due Date</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -183,13 +188,21 @@ const TaskList = () => {
                                 />
                             </td>
                             <td>
-                                {task.familyMemberAssigned.nickname ? (
+                                {task.familyMemberAssigned?.nickname ? (
                                     <Button>In progress...</Button>
                                 ) : (
                                     <Button>Waiting !</Button>
                                 )}
                             </td>
                             <td>{task.taskTime}</td>
+                            <td>
+                                <Button onClick={deleteHandler}>
+                                    Delete Task
+                                </Button>
+                                <Button onClick={editeHandler}>
+                                    Edit Task
+                                </Button>
+                            </td>
                         </tr>
                     ))}
                 </tbody>
